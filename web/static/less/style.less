@@ -1,0 +1,514 @@
+
+@import "../bower/navbar-variant/navbar-variant.less";
+@import "../bower/CuteForm/cuteform.css";
+@import "../css/flaticon.css";
+@import "simple-sidebar.less";
+@import "mixins/buttons.less";
+@import url(https://fonts.googleapis.com/css?family=Roboto);
+
+@mainColor: #59a717;
+@darkColor: #283618;
+@secondaryColor: #f5f07b;
+
+@CColor: #aad36d;
+@RColor: #54ddc7;
+@SRColor: #0088dd;
+@URColor: #ee43ee;
+
+@crazyColor: #b030f0;
+@coolColor: #4080ff;
+@hotColor: #ff0303;
+@deepColor: #f249b7;
+@funColor: #fcca00;
+@classicColor: #26c406;
+
+@font-face {
+    font-family: "Champagne & Limousines";
+    src: url("../fonts/Champagne & Limousines.ttf");
+}
+@font-face {
+    font-family: "Champagne & Limousines";
+    src: url("../fonts/Champagne & Limousines Bold.ttf");
+    font-weight: bold;
+}
+@font-face {
+    font-family: "Champagne & Limousines";
+    src: url("../fomts/Champagne & Limousines Italic.ttf");
+    font-style: italic, oblique;
+}
+@font-face {
+    font-family: "NeutrafaceDisplay";
+    src: url("../fonts/NeutrafaceDisplay-Titling.ttf");
+}
+
+[class^="flaticon-"]:before,
+[class*=" flaticon-"]:before,
+[class^="flaticon-"]:after,
+[class*=" flaticon-"]:after {
+    margin-left: 0;
+    font-size: inherit;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    &.index {
+	background: @mainColor;
+    }
+}
+
+img.cuteform-elt {
+    width: 30px;
+}
+.cuteform-elt {
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.cuteform br {
+    display: none;
+}
+
+#id_skill + .cuteform {
+    img.cuteform-elt {
+	width: 25px;
+    }
+}
+
+[data-cuteform-val=card], [data-cuteform-val=SR] {
+    border-radius: 2px;
+}
+
+a {
+    color: @mainColor;
+    &:hover, &:focus {
+	color: darken(@mainColor, 15%);
+    }
+}
+
+h1, h2, h3, h4, h5, h6, .title, .navbar, .btn {
+    font-family: "NeutrafaceDisplay", monospace;
+}
+
+.text-main { color: @mainColor; }
+.text-secondary { color: @secondaryColor; }
+.text-dark { color: @darkColor; }
+.text-white { color: white; }
+.text-crazy { color: @crazyColor; }
+.text-cool { color: @coolColor; }
+.text-hot { color: @hotColor; }
+.text-deep { color: @deepColor; }
+.text-fun { color: @funColor; }
+.text-classic { color: @classicColor; }
+
+.btn-main { .button-variant(white, @mainColor, darken(@mainColor, 5%)); }
+.btn-secondary { .button-variant(@mainColor, darken(@secondaryColor, 20%), darken(@secondaryColor, 5%)); }
+.btn-white { .button-variant(@mainColor, white, darken(@mainColor, 10%)); }
+.btn-main-light { .button-variant(white, lighten(@mainColor, 25%), darken(lighten(@mainColor, 25%), 5%)); }
+.btn-secondary-light { .button-variant(white, lighten(@secondaryColor, 25%), darken(lighten(@secondaryColor, 25%), 5%)); }
+.btn-main-dark { .button-variant(white, darken(@mainColor, 15%), darken(@mainColor, 25%)); }
+.btn-link { color: @mainColor; &:hover, &:focus { color: darken(@mainColor, 5%); } }
+
+.btn-xl {
+    padding: 20px 32px;
+    font-size: 30px;
+    line-height: 1.5;
+    border-radius: 20px;
+    margin: 0 10px;
+}
+
+.padding20 { padding: 20px; }
+.padding50 { padding: 50px; }
+
+.container_form {
+    width: 100%;
+}
+
+.navbar + main {
+    margin-top: 53px;
+    margin-bottom: 50px;
+}
+
+#disqus_thread {
+    min-height: 327px;
+}
+
+.glee {
+    font-family: 'Champagne & Limousines', sans-serif;
+    font-size: 2em;
+    font-weight: bold;
+    color: @secondaryColor;
+    text-shadow: 3px 0 0 @darkColor, -3px 0 0 @darkColor, 0 3px 0 @darkColor, 0 -3px 0 @darkColor, 1px 1px @darkColor, -1px -1px 0 @darkColor, 1px -1px 0 @darkColor, -1px 1px 0 @darkColor;
+}
+
+.navbar-glee {
+    .navbar-variant(@mainColor, white);
+}
+
+.current-index .navbar-glee {
+    .navbar-variant(darken(@mainColor, 15%), white);
+    //.navbar-variant(@darkColor, white);
+}
+
+.characters-back, .characters-front {
+}
+
+.characters-back {
+    width: 1294px;
+    height: 332px;
+    position: absolute;
+    left: 50%;
+    margin-left: -646px;
+    //  top: 21px + 53 + 200;
+    bottom: 0;
+}
+
+.characters-front {
+width: 1055px;
+height: 311px;
+position: absolute;
+left: 50%;
+margin-left: -567px;
+//top: 45px + 53 + 200;
+bottom: 0;
+}
+
+.background {
+}
+
+.logo {
+    font-size: 8em;
+    span {
+	display: inline-block;
+	margin: -20px;
+    }
+    .title.fr {
+	padding-top: -100px;
+    }
+    .glee {
+	font-size: 1.5em;
+    }
+}
+
+.slogan {
+    font-family: 'Champagne & Limousines', sans-serif;
+    margin-top: 80px;
+    font-size: 3em;
+    width: 80%;
+}
+
+.current-index {
+    background: @mainColor url('/static/img/background.png') no-repeat top center fixed;
+}
+
+#sidebar-wrapper {
+    form {
+	padding: 0 20px;
+	.form-group {
+	    margin: 5px 0;
+	}
+    }
+}
+#page-content-wrapper {
+    padding: 15px;
+}
+
+.card, .card .type, .card .rarity, .single-card {
+    -webkit-box-shadow: 0px 0px 25px -5px rgba(0,0,0,0.59);
+    -moz-box-shadow: 0px 0px 25px -5px rgba(0,0,0,0.59);
+    box-shadow: 0px 0px 25px -5px rgba(0,0,0,0.59);
+    border: 5px white solid;
+    border-radius: 10px;
+}
+a.card:hover, a.card:focus {
+    text-decoration: none;
+    opacity: 0.8;
+    color: inherit;
+}
+.card {
+    display: block;
+    margin: 30px 10px;
+    max-width: 300px;
+    margin: auto;
+    margin-top: 50px;
+    font-family: "NeutrafaceDisplay", monospace;
+    text-align: center;
+    color: inherit;
+    .type {
+	padding: 5px;
+	width: auto;
+	margin: 0 20px;
+	margin-top: -30px;
+	margin-left: 50px;
+	font-size: 1.8em;
+	color: white;
+	img {
+	    display: inline-block;
+	    width: 72px;
+	    height: 72px;
+	    margin: -25px 0;
+	    margin-left: -50px;
+	}
+	.stage_number {
+	    margin: -20px;
+	    height: 40px;
+	    font-size: 0.6em;
+	    text-align: right;
+	    span {
+		display: inline-block;
+		text-align: center;
+		padding: 5px;
+		background-color: @secondaryColor;
+		width: 30px;
+		height: 30px;
+		color: @mainColor;
+		border-radius: 50%;
+	    }
+	}
+    }
+    .title {
+	padding: 10px;
+	font-size: 1.5em;
+	img {
+	    width: 40px;
+	    height: 40px;
+	    border-radius: 50%;
+	    -webkit-box-shadow: 0px 0px 25px -5px rgba(0,0,0,0.59);
+	    -moz-box-shadow: 0px 0px 25px -5px rgba(0,0,0,0.59);
+	    box-shadow: 0px 0px 25px -5px rgba(0,0,0,0.59);
+	}
+    }
+    .image {
+	img {
+	    max-width: 80%;
+	    border: 5px white solid;
+	}
+    }
+    .subtitle {
+	padding: 20px;
+	margin-bottom: 10px;
+    }
+    .rarity {
+	display: inline-block;
+	padding: 5px 40px;
+	color: white;
+	margin-bottom: -50px;
+    }
+    .rarityColor(@color) {
+	background-color: @color;
+	.type, .rarity {
+	    background-color: darken(@color, 25%);
+	}
+	.title, .subtitle {
+	    background-color: lighten(@color, 15%);
+	}
+    }
+    .rarityColor(@CColor);
+    &.C { .rarityColor(@CColor); }
+    &.R { .rarityColor(@RColor); }
+    &.SR { .rarityColor(@SRColor); }
+    &.UR { .rarityColor(@URColor); }
+}
+
+.single-card {
+    text-align: center;
+    font-family: "NeutrafaceDisplay", monospace;
+    a {
+	color: inherit;
+    }
+    .stages {
+	border-radius: 50%;
+	border-top: 20px white solid;
+	display: inline-block;
+	padding: 10px;
+	margin: -30px 0;
+	a {
+	    opacity: 0.6;
+	    &:hover, &:focus, &.selected {
+		opacity: 1;
+	    }
+	    img {
+		width: 30px;
+	    }
+	}
+    }
+    .photo-area {
+	background: white;
+	margin: 20px;
+	padding: 10px;
+	border-radius: 10px;
+	.rarity {
+	    display: block;
+	    &:hover, &:focus {
+		text-decoration: none;
+		opacity: 0.8;
+	    }
+	    height: 50px;
+	    font-size: 2em;
+	    color: white;
+	    margin-bottom: 10px;
+	    padding: 5px;
+	    img {
+		display: inline-block;
+		width: 80px;
+		height: 80px;
+		float: left;
+		margin: -20px;
+		margin-right: -100px;
+	    }
+	}
+	.image {
+	    img {
+		max-width: 100%;
+	    }
+	}
+	.attributes {
+	    padding-top: 10px;
+	    .attribute {
+		display: inline-block;
+		border: 3px #ccc solid;
+		border-radius: 10px;
+		margin: 0 5px;
+		&:hover, &:focus {
+		    text-decoration: none;
+		    opacity: 0.8;
+		    color: #ccc;
+		}
+		padding: 2px 10px;
+		img {
+		    width: 40px;
+		    height: 40px;
+		    margin: -10px;
+		    margin-left: -20px;
+		    margin-right: 0;
+		}
+	    }
+	}
+    }
+    .type {
+	margin-top: 25px;
+	color: white;
+	font-size: 1.8em;
+	border-top-left-radius: 10px;
+	padding: 5px;
+	img {
+	    float: left;
+	    width: 70px;
+	    height: 70px;
+	    margin: -15px;
+	    margin-right: -90px;
+	}
+	.stage_number {
+	    display: inline-block;
+	    padding: 0 20px;
+	    opacity: 0.5;
+	}
+    }
+    .name {
+	margin-bottom: 20px;
+	font-size: 2em;
+	border-bottom-left-radius: 10px;
+	padding: 10px;
+    }
+    .performance {
+	background: white;
+	border-bottom-left-radius: 10px;
+	border-top-left-radius: 10px;
+	.level {
+	    background-color: #ccc;
+	    margin: 10px;
+	    border-radius: 10px;
+	    padding: 10px;
+	    color: white;
+	    .value {
+		color: @darkColor;
+	    }
+	}
+	.title {
+	    color: #ccc;
+	    padding-top: 10px;
+	}
+    }
+    .skill {
+	margin-top: 20px;
+	.title {
+	    display: block;
+	    background: black;
+	    color: white;
+	    border-top-left-radius: 10px;
+	    padding: 10px;
+	    height: 40px;
+	    &:hover, &:focus {
+		opacity: 0.8;
+		text-decoration: none;
+	    }
+	    .skill-title {
+		opacity: 0.5;
+	    }
+	    img {
+		float: left;
+		height: 60px;
+		width: 60px;
+		margin: -20px;
+		margin-right: -90px;
+	    }
+	}
+	.details {
+	    background: white;
+	    padding: 10px;
+	    .sentence {
+		padding: 10px;
+	    }
+	    .chance {
+		background-color: #ccc;
+		border-radius: 10px;
+		padding: 10px;
+		.chance-title {
+		    color: white;
+		}
+	    }
+	}
+	.trigger {
+	    background: #ccc;
+	    border-bottom-left-radius: 10px;
+	    padding: 10px;
+	    margin-bottom: 30px;
+	    .trigger-title {
+		opacity: 0.5;
+	    }
+	}
+    }
+    .noskill {
+	margin: 20px 0;
+	padding: 50px;
+	background-color: #eee;
+	border-bottom-left-radius: 10px;
+	border-top-left-radius: 10px;
+	color: #ccc;
+	font-size: 1.5em;
+    }
+    .rarityColor(@color) {
+	background-color: @color;
+	.stages {
+	    background-color: @color;
+	}
+	.rarity, .type {
+	    background-color: darken(@color, 25%);
+	}
+	.name {
+	    background-color: lighten(@color, 15%);
+	}
+    }
+    .rarityColor(@CColor);
+    &.C { .rarityColor(@CColor); }
+    &.R { .rarityColor(@RColor); }
+    &.SR { .rarityColor(@SRColor); }
+    &.UR { .rarityColor(@URColor); }
+}
+
+@media(min-width:768px) {
+    .container_form {
+	width: 50%;
+	margin: auto;
+    }
+}

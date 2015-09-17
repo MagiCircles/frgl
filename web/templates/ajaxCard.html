@@ -1,0 +1,9 @@
+{% if card.type == 'unlock' or card.type == 'stageup' %}
+<div class="padding20">
+  {% include 'single.html' %}
+</div>
+{% else %}
+{% include 'cardElement.html' %}
+{% endif %}
+<br><br>
+{% include 'singleCardBottom.html' %}

@@ -1,0 +1,20 @@
+{% load choices %}
+{% load tools %}
+{% load i18n %}
+
+<div class="text-right">
+  {% if ajax %}
+  <a class="btn btn-main btn-lg" href="/card/{% if stageup %}{{ stageup.id }}{% else %}{{ card.id }}{% endif %}/#disqus_thread"
+     data-disqus-identifier="card-{{ card.id }}">
+    {% trans 'Comments' %}
+  </a>
+  {% endif %}
+  {% if card.type == 'unlock' or card.type == 'stageup' %}
+  <a class="btn btn-main btn-lg" href="/addcard/stageup/">
+    {% trans 'Add a Stage-Up card' %}
+  </a>
+  {% endif %}
+  <a class="btn btn-main btn-lg" href="/editcard/{% if stageup %}{{ stageup.id }}{% else %}{{ card.id }}{% endif %}/">
+    {% trans 'Edit this card' %}
+  </a>
+</div>

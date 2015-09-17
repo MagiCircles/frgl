@@ -1,0 +1,35 @@
+<script src="/static/bower/CuteForm/cuteform.js"></script>
+<script>
+  cuteform($('#id_type'), {
+      'images': {
+	  '': '/static/img/empty.png',
+	  {% for key, value in form.fields.type.choices %}{% if key != '' %}
+	  '{{ key }}': '/static/img/{{ key }}C.png',
+	  {% endif %}{% endfor %}
+      }
+  });
+  cuteform($('#id_rarity'), {
+      'images': {
+	  '': '/static/img/empty.png',
+	  {% for key, value in form.fields.rarity.choices %}{% if key != '' %}
+	  '{{ key }}': '/static/img/{{ key }}.png',
+	  {% endif %}{% endfor %}
+      }
+  });
+  cuteform($('#id_skill'), {
+      'images': {
+	  '': '/static/img/empty.png',
+	  {% for key, value in form.fields.skill.choices %}{% if key != '' %}
+	  '{{ key }}': '/static/img/{{ key }}.png',
+	  {% endif %}{% endfor %}
+      }
+  });
+  cuteform($('#id_reward_type'), {
+      'images': {
+	  '': '/static/img/empty.png',
+	  {% for key, value in form.fields.reward_type.choices %}{% if key != '' %}
+	  '{{ key }}': '/static/img/{{ key }}.png',
+	  {% endif %}{% endfor %}
+      }
+  });
+</script>

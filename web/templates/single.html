@@ -1,0 +1,160 @@
+{% load choices %}
+{% load tools %}
+{% load i18n %}
+<div class="single-card {{ card.rarity }}">
+  <div class="stages">
+    {% if not stageup %}
+    <a href="/card/{{ card.id }}/" class="selected"><img src="/static/img/stage.png" alt="stage" /></a>
+    {% endif %}
+    {% for stage in card.stages %}
+    {% if forloop.counter0 == 1 and stageup and stage.stage_number == stageup.stage_number|add:1 %}
+    <a href="/card/{{ stageup.id }}/" class="selected"><img src="/static/img/stage.png" alt="stage" /></a>
+    {% endif %}
+    <a href="/card/{{ stage.id }}/"><img src="/static/img/stage.png" alt="stage" /></a>
+    {% if stageup and stage.stage_number|add:1 == stageup.stage_number %}
+    <a href="/card/{{ stageup.id }}/" class="selected"><img src="/static/img/stage.png" alt="stage" /></a>
+    {% endif %}
+    {% endfor %}
+    {% if stageup and card.stages|length == 1 %}
+    <a href="/card/{{ stageup.id }}/" class="selected"><img src="/static/img/stage.png" alt="stage" /></a>
+    {% endif %}
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="photo-area">
+	<a href="/cards/?rarity={{ card.rarity }}" class="rarity">
+	  {% if card.rarity %}
+	  <img src="/static/img/{{ card.rarity }}.png" alt={{ card.rarity|rarityToString }} />
+	  {% trans card.rarity|rarityToString %}
+	  {% else %}
+	  ?
+	  {% endif %}
+	</a>
+	<div class="image">
+	  {% if stageup %}
+	  <img src="/static/img/{{ stageup.image }}" alt="card image" />
+	  {% else %}
+	  <img src="{{ images_hosting_path }}{{ card.image }}" alt="card image" />
+	  {% endif %}
+	</div>
+	<div class="attributes">
+	  {% for attribute in card.attributes|split:"," %}
+	  <a href="/cards/?attributes={{ attribute }}" class="attribute text-{{ attribute }}">
+	    <img src="/static/img/{{ attribute }}.png" />
+	    {% trans attribute|attributeToString %}
+	  </a>
+	  {% endfor %}
+	</div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="type">
+	{% if stageup %}
+	<img src="/static/img/stageup{{ card.rarity }}.png" alt="stageup">
+	{% trans "stageup"|cardTypeToString %}
+	{% if stageup.stage_number %}
+	<span class="stage_number">{{ stageup.stage_number }}</span>
+	{% endif %}
+	{% else %}
+	<img src="/static/img/unlock{{ card.rarity }}.png" alt="unlock">
+	{% trans "unlock"|cardTypeToString %}
+	{% endif %}
+      </div>
+      <div class="name">
+	{% if card.name %}
+	{{ card.name }}
+	{% else %}?{% endif %}<br>
+	<a href="/cards/?performer={{ card.performer.id }}">{{ card.performer.name }}</a>
+      </div>
+      <div class="performance">
+	<div class="title">
+	  {% trans 'Performance Ability' %}
+	</div>
+	<div class="row">
+	  <div class="col-sm-6">
+	    <div class="level">
+	      {% trans 'Lv.' %} 1
+	      <div class="value">
+		{% if card.minimum_performance %}
+		{{ card.minimum_performance }}
+		{% else %}?{% endif %}
+	      </div>
+	    </div>
+	  </div>
+	  <div class="col-sm-6">
+	    <div class="level">
+	      {% trans 'Lv.' %}
+	      {% if stageup %}
+	      {% if stageup.max_level %}
+	      {{ stageup.max_level }}
+	      {% else %}?{% endif %}
+	      {% else %}
+	      {% if card.max_level %}
+	      {{ card.max_level }}
+	      {% else %}?{% endif %}
+	      {% endif %}
+	      <div class="value">
+		{% if stageup %}
+		{% if stageup.maximum_performance %}
+		{{ stageup.maximum_performance }}
+		{% else %}?{% endif %}
+		{% else %}
+		{% if card.maximum_performance %}
+		{{ card.maximum_performance }}
+		{% else %}?{% endif %}
+		{% endif %}
+	      </div>
+	    </div>
+	  </div>
+	</div>
+      </div>
+      {% if card.skill %}
+      <div class="skill">
+	<a href="/cards/?skill={{ card.skill }}" class="title">
+	  <img src="/static/img/{{ card.skill }}.png" alt="{{ card.skill }}" />
+	  <span class="skill-title">{% trans 'Skill' %}:</span>
+	  {% trans card.skill|skillTypeToString %}
+	</a>
+	<div class="details">
+	  <div class="row">
+	    <div class="col-sm-8">
+	      <div class="sentence">
+		{% if card.skill_value %}
+		{{ card.skill|skillToSentence:card.skill_value }}
+		{% else %}
+		{{ card.skill|skillToSentence:"?" }}
+		{% endif %}
+	      </div>
+	    </div>
+	    <div class="col-sm-4">
+	      <div class="chance">
+		<div class="chance-title">{% trans 'Chance' %}</div>
+		{% if card.trigger_chance %}
+		{{ card.trigger_chance }}
+		{% else %}?{% endif %}
+		%
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	<div class="trigger">
+	  <span class="trigger-title">{% trans 'Trigger' %}:</span>
+	  {% if card.trigger_value %}
+	  {{ card.skill|triggerTypeToString:card.trigger_value }}
+	  {% else %}
+	  {{ card.skill|triggerTypeToString:"?" }}
+	  {% endif %}
+	</div>
+      </div>
+      {% else %}
+      <div class="noskill">
+	{% trans 'No special skill' %}
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% if card.stages %}
+{% include 'cardsPage.html' with cards=card.stages colsize=4 perline=3 stages=True %}
+{% endif %}

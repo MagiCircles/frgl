@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+{% load bootstrap %}
+
+<div class="container">
+  <h1 class="text-center padding50">{% block imagetitle %}{% endblock %} {% block title %}{% endblock %}</h1>
+  <form method="POST" class="container_form"{% if multipart %} enctype="multipart/form-data"{% endif %}>
+    {% block form %}
+    {% csrf_token %}
+    {% include "bootstrap_form_horizontal.html" with form=form wrap=0 %}
+    {% endblock %}
+    <div class="pull-right">
+      {% block otherbuttons %}
+      {% endblock %}
+      <input type="submit" class="btn btn-main btn-lg" value="{% block submit %}{% trans 'Apply Changes' %}{% endblock %}" />
+    </div>
+  </form>
+  {% block belowform %}{% endblock %}
+</div>
+
+{% endblock %}

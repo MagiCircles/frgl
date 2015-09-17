@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+
+{% block title %}{% trans 'Card' %}: {{ card }}{% endblock %}
+{% block js %}
+{% endblock %}
+
+{% block content %}
+{% load tools %}
+<div class="container">
+  {% if card.type == 'unlock' or card.type == 'stageup' %}
+  <div class="padding50">
+    {% include 'single.html' %}
+  </div>
+  {% else %}
+  {% include 'cardElement.html' %}
+  {% endif %}
+  {% include 'singleCardBottom.html' %}
+  <br><br>
+  {% include 'include/disqus.html' with disqus_identifier='card-'|addint:card.id %}
+</div>
+{% endblock %}

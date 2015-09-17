@@ -1,0 +1,10 @@
+{% extends "form.html" %}
+{% load i18n %}
+{% load choices %}
+
+{% block title %}{{ card }}{% endblock %}
+{% block imagetitle %}<img src="/static/img/{{ card.type }}C.png" height="39" />{% endblock %}
+
+{% block otherbuttons %}
+<a href="/cards/" class="btn btn-link">{% trans 'Back to cards' %}</a>
+{% endblock %}

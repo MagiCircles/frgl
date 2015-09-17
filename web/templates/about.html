@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+
+{% block title %}{% trans 'About' %}{% endblock %}
+{% block js %}
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+  <div class="padding50">
+
+    <h1 class="text-main">{% trans 'About' %}</h1>
+    <div class="row">
+      <div class="col-md-8">
+	<p class="padding50">
+	  {% blocktrans %}We are two developers and relatively casual players of the game. We previously worked together on <a href="http://schoolido.lu">School Idol Tomodachi</a>, a similar website about another game.
+	  <br><br>
+	  We're both 23 years old and we live in San Francisco, California. We come from the same computer science university and both work as software engineers in the same company: <a href="http://rainbowcooki.es/">Rainbow Cookies</a>.{% endblocktrans %}
+	  <br><br>
+	  This heartwarming support from the community keeps motivating us to do more! We love helping the community by providing as much information as we can about the game, while keeping the website easy to use, shiny and cute ^_^
+	  <br><br>
+	  We don't know how far we will go with this, but one thing we know for sure is that we are having a lot of fun doing it and sharing this crazy glee adventure with you.
+	</p>
+      </div>
+      <div class="col-md-4">
+	<img src="/static/img/engildeby.gif" class="img-circle img-responsive img-thumbnail">
+      </div>
+    </div>
+
+    <div id="contribute"></div>
+    <br><br><br><br>
+    <h1 class="text-main">{% trans 'Contribute' %}</h1>
+    <div class="row">
+      <div class="col-md-4">
+	<h2 class="padding50 text-center">
+	  <i class="flaticon-album"></i>
+	  {% trans 'Cards' %}</h2>
+	<p class="padding50">
+	  {% blocktrans %}
+	  We don't have access to all the information in the game, so we need the help of players like you to create and complete the information about the cards in the site.
+	  <br><br>
+	  Drop us an email, and we will give you an access to cards editor right away!
+	  {% endblocktrans %}
+	  <br><br><br><br><br>
+	  <a href="mailto:contact@schoolido.lu" class="btn btn-block btn-main btn-lg">
+	    {% trans 'Contact us' %}
+	  </a>
+	</p>
+      </div>
+      <div class="col-md-4">
+	<h2 class="padding50 text-center">
+	  <i class="flaticon-about"></i>
+	  {% trans 'Wiki' %}</h2>
+	<p class="padding50">
+	  {% blocktrans %}
+	  Anyone can edit the wiki pages and we would really appreciate your contributions!
+	  You just need to create or log in to an account on <a href="http://github.com/">GitHub</a>.
+	  <br><br>
+	  Feel free to edit any page to correct any missing or inexact information. You can also add your own pages if you want.
+	  {% endblocktrans %}
+	  <br><br><br><br><br>
+	  <a href="/wiki/" class="btn btn-block btn-main btn-lg">
+	    {% trans 'Contribute' %}
+	  </a>
+	</p>
+      </div>
+      <div class="col-md-4">
+	<h2 class="padding50 text-center">
+	  <i class="flaticon-developer"></i>
+	  {% trans 'Dev' %}</h2>
+	<p class="padding50">
+	  {% blocktrans %}
+	  Our project is open-source and open for contributions. We are more than happy to accept pull-requests on GitHub!
+	  <br><br>
+	  The website has been made using <a href="https://docs.djangoproject.com/">Django</a>, so in Python 2. We also use <a href="http://lesscss.org/">LESS CSS</a>, <a href="http://getbootstrap.com/">Bootstrap</a>, <a href="http://jquery.com/">JQuery</a> and <a href="http://bower.io/">Bower</a> for the front-end of the website.
+	  {% endblocktrans %}
+	  <br><br><br><br><br>
+	  <a href="https://github.com/SchoolIdolTomodachi/frgl/" class="btn btn-block btn-main btn-lg">
+	    {% trans 'Source Code' %}
+	  </a>
+	</p>
+      </div>
+    </div>
+
+  </div>
+
+  {% include 'include/disqus.html' with disqus_identifier='contact' %}
+
+</div>
+
+{% endblock %}

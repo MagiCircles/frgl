@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+
+{% block title %}{% trans 'Cards' %}{% endblock %}
+{% block js %}
+<script src="/static/js/cards.js"></script>
+<!--<script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>-->
+{% include 'include/cardsCuteForm.html' with form=filter_form %}
+{% endblock %}
+
+{% block content %}
+{% load bootstrap %}
+{% load choices %}
+<h1 class="hidden">{% trans 'Cards' %}</h1>
+<div id="wrapper" class="active">
+  <nav id="sidebar-wrapper">
+    <form class="form-horizontal" method="get" action="" role="form">
+      {{ filter_form|bootstrap }}
+      {# include "bootstrap_form_horizontal.html" with form=filter_form wrap=0 #}
+      <br>
+      <button type="submit" class="btn btn-lg btn-white btn-block"><i class="flaticon-search"></i> {% trans 'Search' %}</button>
+    </form>
+  </nav>
+  <div id="page-content-wrapper">
+    <a href="#" id="togglebutton" class="{% if interfaceColor %}{{ interfaceColor }}{% else %}default{% endif %}">
+      <i class="flaticon-search"></i>
+      <i class="flaticon-toggler hidder"></i>
+    </a>
+    <div class="row">
+      {% for type, type_str in filter_form.fields.type.choices %}
+      {% if not forloop.counter == 1 %}
+      <div class="col-md-3">
+	<a class="card" href="/addcard/{{ type }}">
+	  <div class="type">
+	    <img src="/static/img/{{ type }}C.png" alt="{{ type }}">
+	    {{ type|cardTypeToString }}
+	  </div>
+	  <div class="subtitle">
+	    <h3>{% trans 'Add Card' %}</h3>
+	  </div>
+	</a>
+      </div>
+      {% endif %}
+      {% endfor %}
+    </div>
+    {% if total_results and show_search_results %}
+    <div class="padding20">
+      {% blocktrans count counter=total_results %}{{ counter }} card matches your search:{% plural %}{{ counter }} cards match your search:{% endblocktrans %}
+    </div>
+    {% endif %}
+    {% include "cardsPage.html" %}
+  </div> <!-- page-content-wrapper -->
+</div> <!-- wrapper -->
+
+{% endblock %}

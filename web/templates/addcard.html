@@ -1,0 +1,14 @@
+{% extends "form.html" %}
+{% load i18n %}
+{% load choices %}
+
+{% block title %}{% trans 'Add Card' %}: {% trans type|cardTypeToString %}{% endblock %}
+{% block imagetitle %}<img src="/static/img/{{ type }}C.png" height="39" />{% endblock %}
+{% block submit %}{% trans 'Add Card' %}{% endblock %}
+{% block js %}
+{% include 'include/cardsCuteForm.html' %}
+{% endblock %}
+
+{% block otherbuttons %}
+<a href="/cards/" class="btn btn-link">{% trans 'Back to cards' %}</a>
+{% endblock %}

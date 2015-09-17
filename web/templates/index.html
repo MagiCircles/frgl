@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+
+{% block js %}
+{% endblock %}
+
+{% block content %}
+
+<img src="/static/img/back.png" class="characters-back" />
+<img src="/static/img/front.png" class="characters-front" />
+<div class="background">
+<br><br>
+<div class="container text-center">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="logo">
+	<span class="title fr">fr</span>
+	<span class="title text-main">.</span>
+	<span class="glee">gl</span>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="slogan">
+	{% trans 'The Glee Forever Database & Community' %}
+      </div>
+    </div>
+  </div>
+  <br><br><br>
+
+<a href="https://play.google.com/store/apps/details?id=com.klab.gleeforever">
+  <img alt="Get it on Google Play"
+       src="/static/img/googleplay.svg" height="80" />
+</a>
+
+<a href="https://itunes.apple.com/app/id950914177">
+  <img alt="Download on the App Store"
+       src="/static/img/appstore.svg" height="80" />
+</a>
+
+<a class="btn btn-main-dark btn-xl"  href="/cards/"><i class="flaticon-album"></i> &nbsp; {% trans 'Cards' %}</a>
+<!--  <a class="btn btn-main-dark btn-xl"  href="/performers/"><i class="flaticon-idolized"></i> &nbsp; {% trans 'Performers' %}</a>
+  <a class="btn btn-main-dark btn-xl"  href="/events/"><i class="flaticon-event"></i> &nbsp; {% trans 'Events' %}</a> -->
+<a class="btn btn-main-dark btn-xl"  href="/wiki/"><i class="flaticon-about"></i> &nbsp; {% trans 'Wiki' %}</a>
+
+</div>
+</div>
+
+{% endblock %}
