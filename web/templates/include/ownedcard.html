@@ -1,0 +1,41 @@
+{% load i18n %}
+{% load tools %}
+	      <div class="ownedcard-parent">
+		<div class="ownedcard-wrapper" data-manual-popover="true">
+		  {% if popover %}
+		  <div class="hidden form-wrapper">
+		    <form method="post" action="/ajax/deleteownedcard/{{ card.id }}/">
+		      {% csrf_token %}
+		      <a href="/card/{{ card.card.id }}/" class="btn btn-main btn-sm"><i class="flaticon-about"></i> {% trans 'About' %}</a>
+		      <button type="submit" class="btn btn-danger btn-sm"><i class="flaticon-delete"></i> {% trans 'Delete' %}</button>
+		    </form>
+		  </div>
+		  {% endif %}
+		  <div class="ownedcard" style="background-image: url('{{ images_hosting_path }}{{ card.card.image }}')" data-manual-popover="true">
+		  </div>
+		  <div class="info" data-manual-popover="true">
+		    {% if card.card.type == 'stageup' %}
+		    {% if card.card.parent.rarity %}
+		    <img src="/static/img/{{ card.card.parent.rarity }}.png" alt="{{ card.card.parent.rarity }}">
+		    {% endif %}
+		    {% for attribute in card.card.parent.attributes|split:"," %}
+		    <img src="/static/img/{{ attribute }}.png" />
+		    {% endfor %}
+		    <img src="/static/img/stage.png" alt="stage" />
+		    {% if card.card.parent.skill %}
+		    <img src="/static/img/{{ card.card.parent.skill }}.png" alt="{{ card.card.parent.skill }}" />
+		    {% endif %}
+		    {% else %}
+		    {% if card.card.rarity %}
+		    <img src="/static/img/{{ card.card.rarity }}.png" alt="{{ card.card.rarity }}">
+		    {% endif %}
+		    {% for attribute in card.card.attributes|split:"," %}
+		    <img src="/static/img/{{ attribute }}.png" />
+		    {% endfor %}
+		    {% if card.card.skill %}
+		    <img src="/static/img/{{ card.card.skill }}.png" alt="{{ card.card.skill }}" />
+		    {% endif %}
+		    {% endif %}
+		  </div> <!-- info -->
+		</div> <!-- ownedcard-wrapper -->
+	      </div> <!-- ownedcard-parent -->

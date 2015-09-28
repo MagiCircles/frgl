@@ -32,7 +32,7 @@
 	</a>
 	<div class="image">
 	  {% if stageup %}
-	  <img src="/static/img/{{ stageup.image }}" alt="card image" />
+	  <img src="{{ images_hosting_path }}{{ stageup.image }}" alt="card image" />
 	  {% else %}
 	  <img src="{{ images_hosting_path }}{{ card.image }}" alt="card image" />
 	  {% endif %}
@@ -153,6 +153,17 @@
       {% endif %}
     </div>
   </div>
+</div>
+<br>
+<div class="text-right">
+{% if ajax %}
+{% else %}
+{% if stageup %}
+{% include 'include/addCardToCollection.html' with card=stageup %}
+{% else %}
+{% include 'include/addCardToCollection.html' %}
+{% endif %}
+{% endif %}
 </div>
 
 {% if card.stages %}

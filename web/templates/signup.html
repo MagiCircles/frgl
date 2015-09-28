@@ -1,0 +1,10 @@
+{% extends "form.html" %}
+{% load i18n %}
+{% load choices %}
+
+{% block title %}{% trans 'Sign Up' %}{% endblock %}
+
+{% block submit %}{% trans 'Sign Up' %}{% endblock %}
+{% block otherbuttons %}
+<a href="/login/" class="btn btn-lg btn-link">{% trans 'Login' %}</a>
+{% endblock %}

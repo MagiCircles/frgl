@@ -4,6 +4,8 @@
 
 {% block title %}{% trans 'Cards' %}{% endblock %}
 {% block js %}
+<script type="text/javascript" src="{% url 'django.views.i18n.javascript_catalog' %}"></script>
+<script src="/static/js/jquery.form.min.js"></script>
 <script src="/static/js/cards.js"></script>
 <!--<script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>-->
 {% include 'include/cardsCuteForm.html' with form=filter_form %}
@@ -19,11 +21,11 @@
       {{ filter_form|bootstrap }}
       {# include "bootstrap_form_horizontal.html" with form=filter_form wrap=0 #}
       <br>
-      <button type="submit" class="btn btn-lg btn-white btn-block"><i class="flaticon-search"></i> {% trans 'Search' %}</button>
+      <button type="submit" class="btn btn-lg btn-white btn-block" data-form-loader="true"><i class="flaticon-search"></i> {% trans 'Search' %}</button>
     </form>
   </nav>
   <div id="page-content-wrapper">
-    <a href="#" id="togglebutton" class="{% if interfaceColor %}{{ interfaceColor }}{% else %}default{% endif %}">
+    <a href="#" id="togglebutton">
       <i class="flaticon-search"></i>
       <i class="flaticon-toggler hidder"></i>
     </a>
@@ -38,6 +40,7 @@
 	  </div>
 	  <div class="subtitle">
 	    <h3>{% trans 'Add Card' %}</h3>
+	    <small>{% trans 'Become a contributor to help us fill the database' %}</small>
 	  </div>
 	</a>
       </div>

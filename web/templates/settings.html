@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans 'Your Settings' %}{% endblock %}
+
+{% block content %}
+<div class="container">
+  <br><br>
+  <div class="jumbotron">
+    <h1 class="text-center">{% trans 'Your Settings' %}</h1>
+    <hr>
+    <h2 id="customize">{% trans 'Customize' %}</h2>
+    <br>
+    <form method="post" action="">
+      {% csrf_token %}
+      {% include "bootstrap_form_horizontal.html" with form=form_preferences wrap=0 %}
+      <br><br>
+      <div class="text-right">
+	<a href="/user/{{ user.username }}/" class="btn btn-lg btn-link">{% trans 'Back to my profile' %}</a>
+	<input name="editPreferences" type="submit" class="btn btn-lg btn-main" value="{% trans 'Apply Changes' %}" />
+      </div>
+      <input type="hidden" name="next" value="/login" />
+    </form>
+
+    <hr>
+
+    {% if links|length %}
+    <h2 id="links">{% trans 'Links' %}</h2>
+    <br>
+
+    <form>
+      <table class="table table-main table-padded table-rounded">
+	{% for link in links %}
+	<tr id="link{{link.id}}">
+	  <td>
+	    {% include 'include/link.html' %}
+	  </td>
+	  <td class="text-right" width="200"><a href="#deleteLink" data-link-id="{{ link.id }}" class="btn btn-lg btn-danger">{% trans 'Delete Link' %}</a></td>
+	</tr>
+	{% endfor %}
+      </table>
+    </form>
+    <br>
+    {% endif %}
+    <h2 id="addlink">{% trans 'Add Link' %}</h2>
+    <br>
+    <form method="post" action="">
+	{% csrf_token %}
+      {% include "bootstrap_form_horizontal.html" with form=form_addlink wrap=0 %}
+      <br><br>
+      <div class="text-right">
+	<a href="/user/{{ user.username }}/" class="btn btn-lg btn-link">{% trans 'Back to my profile' %}</a>
+	<button name="addLink" type="submit" class="btn btn-lg btn-main"><i class="flaticon-add"></i> {% trans 'Add Link' %}</button>
+      </div>
+      <input type="hidden" name="next" value="/login" />
+    </form>
+
+    <hr>
+    <h2 id="avatar">{% trans 'Avatar' %}</h2>
+    <br>
+    <form>
+      <div class="alert alert-info">{% trans 'To change your avatar, use Gravatar with the same email address.' %}</div>
+      <div class="text-right">
+	<a href="/user/{{ user.username }}/" class="btn btn-lg btn-link">{% trans 'Back to my profile' %}</a>
+	<a class="btn btn-lg btn-main" href="https://{{ LANGUAGE_CODE }}.gravatar.com/" target="_blank">{% trans 'Change Avatar' %}</a>
+      </div>
+    </form>
+
+    <hr>
+
+    <h2 id="settings">{% trans 'Your Settings' %}</h2>
+    <br>
+    <form method="post" action="">
+      <div class="alert alert-danger">{% blocktrans %}If you change your username, all the external links to your profile will not work anymore. All your comments will be deleted. If you wish to transfer your comments, contact us.{% endblocktrans %}</div>
+      {% csrf_token %}
+      {% include "bootstrap_form_horizontal.html" with form=form wrap=0 %}
+      <br><br>
+      <div class="text-right">
+	<a href="/user/{{ user.username }}/" class="btn btn-lg btn-link">{% trans 'Back to my profile' %}</a>
+	<input type="submit" class="btn btn-lg btn-main" value="{% trans 'Apply Changes' %}" />
+      </div>
+      <input type="hidden" name="next" value="/login" />
+    </form>
+
+    <hr>
+
+    <h2 id="changepassword">{% trans 'Change your password' %}</h2>
+    <br>
+    <form method="post" action="">
+      {% csrf_token %}
+      {% include "bootstrap_form_horizontal.html" with form=form_changepassword wrap=0 %}
+      <br><br>
+      <div class="text-right">
+	<a href="/user/{{ user.username }}/" class="btn btn-lg btn-link">{% trans 'Back to my profile' %}</a>
+	<input name="changePassword" type="submit" class="btn btn-lg btn-main" value="{% trans 'Apply Changes' %}" />
+      </div>
+      <input type="hidden" name="next" value="/login" />
+    </form>
+
+    <hr>
+
+    <h2 id="editaccounts">{% trans 'Edit your accounts' %}</h2>
+    <br>
+    <form>
+      <table class="table">
+	{% for account in accounts %}
+	<tr>
+	  <td><h4>{{ account }}</h4></td>
+	  <td class="text-right"><a href="/editaccount/{{ account.id }}/" class="btn btn-lg btn-main">{% trans 'Edit Account' %}</a></td>
+	</tr>
+	{% endfor %}
+      </table>
+      <div class="text-right">
+	<a href="/user/{{ user.username }}/" class="btn btn-lg btn-link">{% trans 'Back to my profile' %}</a>
+	<a href="/addaccount/" class="btn btn-lg btn-main"><i class="flaticon-add"></i> {% trans 'Add Account' %}</a>
+      </div>
+    </form>
+
+  </div>
+</div>
+
+{% endblock %}
+{% block js %}
+<script src="/static/js/settings.js"></script>
+{% endblock %}

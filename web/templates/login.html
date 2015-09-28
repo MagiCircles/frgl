@@ -1,0 +1,11 @@
+{% extends "form.html" %}
+{% load i18n %}
+{% load choices %}
+
+{% block title %}{% trans 'Login' %}{% endblock %}
+
+{% block submit %}{% trans 'Login' %}{% endblock %}
+{% block otherbuttons %}
+<a href="/signup/" class="btn btn-lg btn-link">{% trans 'Sign Up' %}</a>
+{# <a href="/password_reset/" class="btn btn-lg btn-link">{% trans 'Forgot password?' %}</a> #}
+{% endblock %}

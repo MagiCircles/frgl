@@ -42,63 +42,43 @@
 	<div class="collapse navbar-collapse collapse">
 	  <ul class="nav navbar-nav navbar-right">
 	    <li class="{% if current == 'cards' %}active{% endif %}"><a href="/cards/"><i class="flaticon-album"></i><span class="hidden-sm"> &nbsp; {% trans 'Cards' %}</span></a></li>
-	    {# <li class="{% if current == 'performers' %}active{% endif %}"><a href="/performers/"><i class="flaticon-idolized"></i><span class="hidden-sm"> &nbsp; {% trans 'Performers' %}</span></a></li> #}
+	    {# <li class="{% if current == 'performers' %}active{% endif %}"><a href="/performers/"><i class="flaticon-idolized"></i><span class="hidden-sm"> &nbsp; {% trans 'Performers' %}</span></a></li>  #}
 	    {# <li class="{% if current == 'events' %}active{% endif %}"><a href="/events/"><i class="flaticon-event"></i><span class="hidden-sm"> &nbsp; {% trans 'Events' %}</span></a></li> #}
 	    <li class="{% if current == 'wiki' %}active{% endif %}"><a href="/wiki/"><i class="flaticon-about"></i><span class="hidden-sm"> &nbsp; {% trans 'Wiki' %}</span></a></li>
-	    {# <li class="{% if current == 'users' %}active{% endif %}"><a href="/users/"><i class="flaticon-users"></i><span class="hidden-sm"> &nbsp; {% trans 'Players' %}</span></a></li> #}
+	    <li class="{% if current == 'users' %}active{% endif %}"><a href="/users/"><i class="flaticon-users"></i><span class="hidden-sm"> &nbsp; {% trans 'Gleeks' %}</span></a></li>
 	    {% if user.is_authenticated %}
-{#	    <li class="dropdown">	 #}
-{#	      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> #}
-{#		{% include 'include/avatar.html' with av_user=user av_size=10 av_image_size=22 %} #}
-{#		&nbsp; #}
-{#		{{ user.username }} #}
-{#	      </a> #}
-{#	      <ul class="dropdown-menu" role="menu"> #}
-{#		<li class="{% if current == 'profile' and profile_user.username == user.username %}active{% endif %}"><a href="/user/{{ user.username }}/"><i class="flaticon-profile"></i> {% trans 'Profile' %}</a></li> #}
-{#		<li class="{% if current == 'activities' %}active{% endif %}"><a href="/activities/"><i class="flaticon-activities"></i> {% trans 'Activities' %}</a></li> #}
-{#		<li class="{% if current == 'edit' %}active{% endif %}"><a href="/edit/"><i class="flaticon-settings"></i> {% trans 'Your Settings' %}</a></li> #}
-{#		<li role="presentation" class="divider"></li> #}
-{#		{% if accounts %} #}
-{#		<li role="presentation" class="dropdown-header">{% with accounts|length as length %}{% blocktrans count counter=length %}{{ length }} account:{% plural %}{{ length }} accounts:{% endblocktrans %}{% endwith %}</li> #}
-{#		{% endif %} #}
-{#		{% for account in accounts %} #}
-{#		<li><a href="/user/{{ user.username }}/#{{ account.pk }}" class="account"> #}
-{#		    {% if account.center %} #}
-{#		    <div class="pull-left"> #}
-{#		      <!-- here goes image --> #}
-{#		    </div> #}
-{#		    {% else %} #}
-{#		    <div class="padding pull-left"></div> #}
-{#		    {% endif %} #}
-{#		    {{ account }}</a></li> #}
-{#		{% endfor %} #}
-{#		<li class="{% if current == 'addaccount' %}active{% endif %}"><a href="/addaccount/"><i class="flaticon-add"></i> {% trans 'Add Account' %}</a></li> #}
-{#		<li class="{% if current == 'profile' and profile_user.username == user.username %}active{% endif %}"><a href="/user/{{ user.username }}/"><i class="flaticon-edit"></i> {% trans 'Edit your accounts' %}</a></li> #}
-{#		<li role="presentation" class="divider"></li> #}
-{#		<li><a href="/logout/"><i class="flaticon-logout"></i> {% trans 'Logout' %}</a></li> #}
-{#	      </ul> #}
-{#	    </li> #}
+	    <li class="dropdown">	 
+	      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" id="you"> 
+		{% include 'include/avatar.html' with av_user=user av_size=10 av_image_size=22 %} 
+		&nbsp; 
+		{{ user.username }} 
+	      </a> 
+	      <ul class="dropdown-menu" role="menu"> 
+		<li class="{% if current == 'profile' and profile_user.username == user.username %}active{% endif %}"><a href="/user/{{ user.username }}/"><i class="flaticon-profile"></i> {% trans 'Profile' %}</a></li> 
+		<li class="{% if current == 'settings' %}active{% endif %}"><a href="/settings/"><i class="flaticon-settings"></i> {% trans 'Your Settings' %}</a></li> 
+		<li role="presentation" class="divider"></li> 
+		<li><a href="/logout/"><i class="flaticon-logout"></i> {% trans 'Logout' %}</a></li> 
+	      </ul> 
+	    </li> 
 	    {% else %}
-{#	    <li class="dropdown">	#}
-{#	      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">#}
-{#		<i class="flaticon-profile"></i>#}
-{#		&nbsp;#}
-{#		{% trans 'You' %}#}
-{#	      </a>#}
-{#	      <ul class="dropdown-menu" role="menu">#}
-{#		<li class="{% block loginviewactive %}{% endblock %}"><a href="/login/"><span class="hidden-sm"> &nbsp; <i class="flaticon-perfectlock"></i> {% trans 'Login' %}</span></a></li>#}
-{#		<li class="{% if current == 'create' %}active{% endif %}"><a href="/create/"><i class="flaticon-profile"></i><span class="hidden-sm"> &nbsp; {% trans 'Sign Up' %}</span></a></li>#}
-{#	      </ul>#}
-{#	    </li>#}
+	    <li class="dropdown">	
+	      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" id="you">
+		<i class="flaticon-profile"></i>
+		&nbsp;
+		{% trans 'You' %}
+	      </a>
+	      <ul class="dropdown-menu" role="menu">
+		<li class="{% if current == 'login' %}active{% endif %}"><a href="/login/"><span class="hidden-sm"> &nbsp; <i class="flaticon-perfectlock"></i> {% trans 'Login' %}</span></a></li>
+		<li class="{% if current == 'signup' %}active{% endif %}"><a href="/signup/"><i class="flaticon-profile"></i><span class="hidden-sm"> &nbsp; {% trans 'Sign Up' %}</span></a></li>
+	      </ul>
+	    </li>
 	    {% endif %}
 	    <li><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
 		<i class="flaticon-more"></i>
 	      </a>
 	      <ul class="dropdown-menu" role="menu">
-		{# <li><a href="http://schoolido.lu/#contact" data-toggle="ajaxmodal"><i class="flaticon-contact"></i> {% trans 'Contact Us' %}</a></li> #}
-		<li><a href="http://schoolido.lu/donate/"><span class="text-danger"><i class="flaticon-heart"></i></span> {% trans 'Donate' %}</a></li>
-		{# <li><a href="https://github.com/SchoolIdolTomodachi/SchoolIdolAPI/wiki" target="_blank"><i class="flaticon-help"></i> {% trans 'Help' %}</a></li> #}
-		<li><a href="/about/"><i class="flaticon-about"></i> {% trans 'About' %}</a></li>
+		<li class="{% if current == 'donate' %}active{% endif %}"><a href="/donate/"><span class="text-danger"><i class="flaticon-heart"></i></span> {% trans 'Donate' %}</a></li>
+		<li class="{% if current == 'about' %}active{% endif %}"><a href="/about/"><i class="flaticon-about"></i> {% trans 'About' %}</a></li>
 {#		<!-- <li><a href="#developersModal" data-toggle="ajaxmodal"><i class="flaticon-developer"></i> {% trans 'Developers' %}</a></li> --> #}
 {#		<!-- <li role="presentation" class="divider"></li> #}
 {#		<li role="presentation" class="dropdown-header">{% trans 'Switch language:' %}</li> #}
@@ -169,7 +149,7 @@
     };
     </script>
 
-    <script src="/static/bower/jQuery/dist/jquery.min.js"></script>
+    <script src="/static/bower/jquery/jquery.min.js"></script>
     <script src="/static/js/jquery.form.min.js"></script>
     <script src="/static/bower/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="/static/js/main.js"></script>

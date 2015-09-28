@@ -1,0 +1,17 @@
+{% load i18n %}
+
+{% if activities|length > 0 %}
+{% for activity in activities %}
+{% include 'include/activitysingle.html' %}
+{% endfor %}
+
+{% if account %}
+{% include 'include/pagination.html' with onClick=True id=account %}
+{% else %}
+{% include 'include/pagination.html' %}
+{% endif %}
+{% elif page == 1 %}
+<h4 class="padding50 alert alert-success">
+  {% trans 'No result.' %}
+</h4>
+{% endif %}

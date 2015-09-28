@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User, Group
 from django.core import validators
 from django.utils.translation import ugettext_lazy as _, string_concat
+from web.model_choices import *
+import hashlib, urllib
 
 class Performer(models.Model):
     name = models.CharField(max_length=100, unique=True)
@@ -10,69 +12,63 @@ class Performer(models.Model):
     def __unicode__(self):
         return self.name
 
-ATTRIBUTES = (
-    ('crazy', _('Crazy')),
-    ('cool', _('Cool')),
-    ('hot', _('Hot')),
-    ('deep', _('Deep')),
-    ('fun', _('Fun')),
-    ('classic', _('Classic')),
-)
-def attributeToString(attribute): return dict(ATTRIBUTES)[attribute]
+class UserPreferences(models.Model):
+    user = models.OneToOneField(User, related_name='preferences', on_delete=models.CASCADE)
+    description = models.TextField(_('Description'), null=True, help_text=_('Write whatever you want. You can add formatting and links using Markdown.'), blank=True)
+    favorite_performer = models.ForeignKey(Performer, related_name='fans', null=True, on_delete=models.SET_NULL)
+    location = models.CharField(_('Location'), max_length=200, null=True, blank=True, help_text=string_concat(_('The city you live in.'), ' ', _('It might take up to 24 hours to update your location on the map.')))
+    twitter = models.CharField(max_length=32, null=True, blank=True)
+    facebook = models.CharField(max_length=32, null=True, blank=True)
+    location_changed = models.BooleanField(default=False)
+    latitude = models.FloatField(null=True, blank=True)
+    longitude = models.FloatField(null=True, blank=True)
+    following = models.ManyToManyField(User, related_name='followers')
+    status = models.CharField(choices=STATUS_CHOICES, max_length=12, null=True)
+    donation_link = models.CharField(max_length=200, null=True, blank=True)
+    donation_link_title = models.CharField(max_length=100, null=True, blank=True)
+    private = models.BooleanField(_('Private Profile'), default=False, help_text=_('If your profile is private, only you can see your cards, event participations and cleared songs.'))
 
-CARD_TYPES = (
-    ('reward', _('Reward')),
-    ('boost', _('Boost')),
-    ('unlock', _('Unlock')),
-    ('stageup', _('Stage Up')),
-)
-def cardTypeToString(card_type): return dict(CARD_TYPES)[card_type]
+    def avatar(self, size):
+        default = 'http://fr.gl/static/img/avatar.png'
+        if self.twitter:
+            default = 'http://schoolido.lu/avatar/twitter/' + self.twitter
+        elif self.facebook:
+            default = 'http://schoolido.lu/avatar/facebook/' + self.facebook
+        return ("http://www.gravatar.com/avatar/"
+                + hashlib.md5(self.user.email.lower()).hexdigest()
+                + "?" + urllib.urlencode({'d': default, 's': str(size)}))
 
-SKILL_TYPES = (
-    ('overthebar', _('Over the bar')),
-    ('pitchperfect', _('Pitch Perfect')),
-    ('greattiming', _('Great Timing')),
-    ('vocalrun', _('Vocal Run')),
-    ('extraeffort', _('Extra Effort')),
-)
-def skillTypeToString(skill_type): return dict(SKILL_TYPES)[skill_type]
+class Account(models.Model):
+    owner = models.ForeignKey(User, related_name='accounts')
+    nickname = models.CharField(_("Nickname"), blank=True, max_length=20)
+    os = models.CharField(_("Operating System"), choices=OS_CHOICES, max_length=10, null=True, blank=True)
+    device = models.CharField(_('Device'), help_text=_('The modele of your device. Example: Nexus 5, iPhone 4, iPad 2, ...'), max_length=150, null=True, blank=True)
+    play_with = models.CharField(_('Play with'), blank=True, null=True, max_length=30, choices=PLAYWITH_CHOICES)
+    accept_friend_requests = models.NullBooleanField(_('Accept friend requests on Facebook'), blank=True, null=True)
+    rank = models.PositiveIntegerField(_("Rank"), blank=True, null=True)
+    account_id = models.PositiveIntegerField(_("ID"), blank=True, null=True, help_text=_('To find your ID, tap the settings icon, then tap "Profile". Your ID is the number you see on top of the window.'))
 
-SKILL_SENTENCES = (
-    ('overthebar', _('Add {} points to the score')),
-    ('pitchperfect', _('Add {} points to the score')),
-    ('greattiming', _('Add {} points to the score')),
-    ('vocalrun', _('Add {} points to the score')),
-    ('extraeffort', _('Change all OK notes to Great, and Great notes to perfect for {} seconds')),
-)
-def skillToSentence(skill_type, value): return _(dict(SKILL_SENTENCES)[skill_type]).format(value)
+    def __unicode__(self):
+        return unicode(self.owner.username) if self.nickname == '' else unicode(self.nickname)
 
-TRIGGER_TYPES = (
-    ('greattiming', _('Every {} seconds')),
-    ('pitchperfect', _('Every {} perfect notes')),
-    ('overthebar', _('Every {} OK (or better) notes')),
-    ('extraeffort', _('Every {} OK (or better) notes')),
-    ('vocalrun', _('Every {} unbroken combo notes')),
-)
-def triggerTypeToString(trigger_type, value): return _(dict(TRIGGER_TYPES)[trigger_type]).format(value)
+class UserLink(models.Model):
+    alphanumeric = validators.RegexValidator(r'^[0-9a-zA-Z-_\. ]*$', 'Only alphanumeric and - _ characters are allowed.')
+    owner = models.ForeignKey(User, related_name='links')
+    type = models.CharField(_('Platform'), max_length=20, choices=LINK_CHOICES)
+    value = models.CharField(_('Username/ID'), max_length=64, help_text=_('Write your username only, no URL.'), validators=[alphanumeric])
+    relevance = models.PositiveIntegerField(_('How often do you tweet/stream/post about Glee?'), choices=LINK_RELEVANCE_CHOICES, null=True, blank=True)
 
-RARITY = (
-    ('C', _('Common')),
-    ('R', _('Rare')),
-    ('SR', _('Super Rare')),
-    ('UR', _('Ultra Rare')),
-)
-def rarityToString(rarity): return dict(RARITY)[rarity]
+    def url(self):
+        return LINK_URLS[self.type].format(self.value)
 
-REWARDS = (
-    ('glee', _('Glee Coin')),
-    ('token', _('Story Token')),
-    ('card', _('Story Card')),
-    ('pass', _('Hall Pass')),
-    ('coupon', _('Premium Chance Coupon')),
-    ('eventtoken', _('Event Token')),
-    ('ticket', _('Tickets')),
-)
-def rewardToString(reward): return dict(REWARDS)[reward]
+    def save(self, *args, **kwargs):
+        if self.type == 'twitter':
+            self.owner.preferences.twitter = self.value
+            self.owner.preferences.save()
+        if self.type == 'facebook':
+            self.owner.preferences.facebook = self.value
+            self.owner.preferences.save()
+        super(UserLink, self).save(*args, **kwargs)
 
 class Card(models.Model):
     creation = models.DateTimeField(auto_now_add=True)
@@ -98,8 +94,33 @@ class Card(models.Model):
 
     def __unicode__(self):
         if self.name:
-            return u'{}: {}'.format(self.type, self.name)
-        return u'{} Card'.format(self.type)
+            return u'{}: {}'.format(cardTypeToString(self.type), self.name)
+        return u'{}: {} {}'.format(cardTypeToString(self.type), (self.name if self.name else (self.parent.name if self.parent else '')), (self.performer if self.performer else (self.parent.performer.name if self.parent else '')))
 
     class Meta:
         unique_together = (('parent', 'stage_number'),)
+
+class OwnedCard(models.Model):
+    creation = models.DateTimeField(auto_now_add=True)
+    account = models.ForeignKey(Account, verbose_name=_('Account'), related_name='ownedcards')
+    card = models.ForeignKey(Card, related_name='ownedcards')
+
+    def __unicode__(self):
+        return unicode(self.account) + u' owns ' + unicode(self.card)
+
+# Add card to deck/album/wish list
+# Level up
+class Activity(models.Model):
+    creation = models.DateTimeField(auto_now_add=True)
+    account = models.ForeignKey(Account, related_name='activities', null=True, blank=True)
+    message = models.CharField(max_length=300, choices=ACTIVITY_MESSAGE_CHOICES)
+    rank = models.PositiveIntegerField(null=True, blank=True)
+    ownedcard = models.ForeignKey(OwnedCard, null=True, blank=True)
+#    eventparticipation = models.ForeignKey(EventParticipation, null=True, blank=True)
+    likes = models.ManyToManyField(User, related_name="liked_activities")
+
+    class Meta:
+        unique_together = (('account', 'message', 'ownedcard'), ('account', 'message', 'rank'))
+
+    def __unicode__(self):
+        return u'%s %s' % (self.account, self.message)

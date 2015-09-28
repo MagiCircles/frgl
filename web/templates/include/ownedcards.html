@@ -1,0 +1,18 @@
+{% load i18n %}
+{% if cards %}
+{% for card in cards %}
+{% include 'cardElement.html' %}
+{% endfor %}
+{% else %}
+<div class="alert alert-warning">
+  {% if is_me %}
+  <div class="pull-right">
+    <a href="/cards/" target="_blank" class="btn btn-secondary">
+      {% trans 'Browse cards' %}
+    </a>
+  </div>
+  <br>
+  {% endif %}
+  {% trans 'No cards registered yet.' %}
+</div>
+{% endif %}

@@ -1,0 +1,62 @@
+{% load i18n %}
+	  {% if is_me %}
+	  <a href="/cards/">
+	    <div class="row">
+	      <div class="col-sm-1">
+		<div class="fontx2 text-right">
+		  <i class="flaticon-about"></i>
+		</div>
+	      </div>
+	      <div class="col-sm-11">
+		<div style="line-height: 2.5em">
+		  {% blocktrans %}To search through your cards, order them, edit them or add some new, go to the cards page and use the filters.{% endblocktrans %}
+		</div>
+	      </div>
+	    </div>
+	  </a>
+	  <br>
+	  {% endif %}
+
+	  {% if account.cards %}
+	  <div id="carousel-performers-{{ account.pk }}" class="carousel slide" data-ride="carousel" data-interval="false">
+	    <!-- Indicators -->
+	    <ol class="carousel-indicators">
+	      {% for performer in account.performers %}
+	      <li data-target="#carousel-performers-{{ account.pk }}" data-slide-to="{{ forloop.counter0}}" data-performer="{{ performer }}" {% if performer.name == account.selected_performer.name %} class="active"{% endif %}></li>
+	      {% endfor %}
+	    </ol>
+
+	    <!-- Wrapper for slides -->
+	    <div class="carousel-inner" role="listbox">
+	      {% for card in account.cards %}
+	      {% ifchanged card.card.performer %}
+	      {% if forloop.counter0 != 0 %}
+	    </div>
+	  </div> <!-- item -->
+	      {% endif %}
+	      <div class="item{% if card.card.performer.name == account.selected_performer.name %} active{% endif %}" style="height: {{ account.item_height }}px;">
+		<img src="{{ images_hosting_path }}{{ card.card.performer.image }}" alt="{{ card.card.performer.name }}" class="performer">
+		<div class="carousel-caption">
+		  <h1>{{ card.card.performer.name }}</h1>
+		  {% endifchanged %}
+		  {% include 'include/ownedcard.html' with popover=True %}
+		  {% endfor %}
+		</div>
+	      </div> <!-- item -->
+	    </div> <!-- carousel-inner -->
+
+	    <!-- Controls -->
+	    <a class="left carousel-control" href="#carousel-performers-{{ account.pk }}" role="button" data-slide="prev">
+	      <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+	      <span class="sr-only">Previous</span>
+	    </a>
+	    <a class="right carousel-control" href="#carousel-performers-{{ account.pk }}" role="button" data-slide="next">
+	      <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+	      <span class="sr-only">Next</span>
+	    </a>
+	  </div> <!-- carousel-performers -->
+	  {% else %}
+	  <h4 class="padding50 alert alert-success">
+	    {% trans 'No result.' %}
+	  </h4>
+	{% endif %}

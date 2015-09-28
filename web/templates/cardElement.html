@@ -1,51 +1,55 @@
 {% load i18n %}
 {% load tools %}
 {% load choices %}
-    <a href="/cards/{{ card.id }}/" class="card {% if card.type == 'stageup' %}{{ card.parent.rarity }}{% else %}{{ card.rarity }}{% endif %}">
-      <div class="type">
-	<img src="/static/img/{{ card.type }}{% if card.type == 'stageup' %}{{ card.parent.rarity }}{% else %}{{ card.rarity }}{% endif %}.png" alt="{{ card.type }}">
-	<span class="hidden-md">{% trans card.type|cardTypeToString %}</span>
-	{% if card.type == 'stageup' and card.stage_number %}
-	<div class="stage_number"><span>{{ card.stage_number }}</span></div>
-	{% endif %}
-      </div>
-      <div class="title">
-	{% if card.type == 'reward' %}
-	+ {% if card.add_value %}{{ card.add_value }}{% else %}?{% endif %}
-	{% if card.reward_type %}
-	<img src="/static/img/{{ card.reward_type }}.png" alt="{{ card.reward_type }}">
-	{% endif %}
-	{% elif card.type == 'boost' %}
-	+ {% if card.add_value %}{{ card.add_value }}{% else %}?{% endif %}
-	<img src="/static/img/boost{% if card.type == 'stageup' %}{{ card.parent.rarity }}{% else %}{{ card.rarity }}{% endif %}.png" alt="xp">
-	to
-	{% if card.performer %}
-	<img src="{{ images_hosting_path }}{{ card.performer.image }}" alt="{{ card.performer.name }}" />
-	{% else %}
-	{% trans 'All' %}
-	{#<img src="/static/img/allperformers.png" alt="glee" />#}
-	{% endif %}
-	{% elif card.type == 'unlock' %}
-	{{ card.name }}
-	{% else %}
-	{{ card.parent.name }}
-	{% endif %}
-      </div>
-      <div class="image">
-	<img src="{{ images_hosting_path }}{{ card.image }}" alt="card image" />
-      </div>
-      <div class="subtitle">
-	{% if card.sentence %}{{ card.sentence }}{% else %}{% endif %}
-      </div>
-      <div class="rarity">
-	{% if card.type == 'stageup' %}
-	{% if card.parent.rarity %}
-	{% trans card.parent.rarity|rarityToString %}
-	{% else %}?{% endif %}
-	{% else %}
-	{% if card.rarity %}
-	{% trans card.rarity|rarityToString %}
-	{% else %}?{% endif %}
-	{% endif %}
-      </div>
-    </a>
+    <div class="card-wrapper">
+      <a class="card {% if card.type == 'stageup' %}{{ card.parent.rarity }}{% else %}{{ card.rarity }}{% endif %}" href="/cards/{{ card.id }}/">
+	<div class="type">
+	  <img src="/static/img/{{ card.type }}{% if card.type == 'stageup' %}{{ card.parent.rarity }}{% else %}{{ card.rarity }}{% endif %}.png" alt="{{ card.type }}">
+	  <span class="hidden-md">{% trans card.type|cardTypeToString %}</span>
+	  {% if card.type == 'stageup' and card.stage_number %}
+	  <div class="stage_number"><span>{{ card.stage_number }}</span></div>
+	  {% endif %}
+	</div>
+	<div class="title">
+	  {% if card.type == 'reward' %}
+	  + {% if card.add_value %}{{ card.add_value }}{% else %}?{% endif %}
+	  {% if card.reward_type %}
+	  <img src="/static/img/{{ card.reward_type }}.png" alt="{{ card.reward_type }}">
+	  {% endif %}
+	  {% elif card.type == 'boost' %}
+	  + {% if card.add_value %}{{ card.add_value }}{% else %}?{% endif %}
+	  <img src="/static/img/boost{% if card.type == 'stageup' %}{{ card.parent.rarity }}{% else %}{{ card.rarity }}{% endif %}.png" alt="xp">
+	  to
+	  {% if card.performer %}
+	  <img src="{{ images_hosting_path }}{{ card.performer.image }}" alt="{{ card.performer.name }}" />
+	  {% else %}
+	  {% trans 'All' %}
+	  {#<img src="/static/img/allperformers.png" alt="glee" />#}
+	  {% endif %}
+	  {% elif card.type == 'unlock' %}
+	  {{ card.name }}
+	  {% else %}
+	  {{ card.parent.name }}
+	  {% endif %}
+	</div>
+	<div class="image">
+	  <img src="{{ images_hosting_path }}{{ card.image }}" alt="card image" />
+	</div>
+	<div class="subtitle">
+	  {% if card.sentence %}{{ card.sentence }}{% else %}{% endif %}
+	</div>
+	<div class="rarity">
+	  {% if card.type == 'stageup' %}
+	  {% if card.parent.rarity %}
+	  {% trans card.parent.rarity|rarityToString %}
+	  {% else %}?{% endif %}
+	  {% else %}
+	  {% if card.rarity %}
+	  {% trans card.rarity|rarityToString %}
+	  {% else %}?{% endif %}
+	  {% endif %}
+	</div>
+      </a>
+      {% include 'include/addCardToCollection.html' %}
+    </div>
+

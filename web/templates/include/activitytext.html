@@ -1,0 +1,7 @@
+{% load i18n %}
+	{% if activity.message == 'Rank Up' %}
+	{% elif activity.message == 'Added a card' or activity.message == 'Idolized a card' or activity.message == 'Max Leveled a card' or activity.message == 'Max Bonded a card' %}
+	  <a href="/cards/{{ activity.ownedcard.card.id }}/">
+	    {{ activity.ownedcard.card }}
+	  </a>
+	{% endif %}

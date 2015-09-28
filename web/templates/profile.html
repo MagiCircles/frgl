@@ -1,0 +1,185 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load markdown_deux_tags %}
+{% block title %}{{ profile_user.username }}: {% trans 'Profile'%}{% endblock %}
+{% block js %}
+<script type="text/javascript" src="{% url 'django.views.i18n.javascript_catalog' %}"></script>
+<script src="/static/bower/Autolinker.js/dist/Autolinker.min.js"></script>
+{#<script src="/static/js/loadactivities.js"></script>#}
+<script src="/static/js/profile.js"></script>
+{% endblock %}
+
+{% block content %}
+{% load tools %}
+{% load choices %}
+<div class="container">
+  <br><br>
+  <div class="jumbotron jumbotron-main" id="profile">
+    <div class="topprofile">
+      <div class="row">
+	<div class="col-sm-2">
+	  {% include 'include/avatar.html' with av_user=profile_user av_size=60 av_image_size=200 %}
+	</div>
+	<div class="col-sm-10">
+	  <div class="info">
+	    <div class="pull-right text-right">
+	      {% if user.is_authenticated and not profile_user.preferences.private and not is_me %}
+	      <form method="POST" class="noform" id="follow" action="/ajax/follow/{{ profile_user.username }}/">
+		{% csrf_token %}
+		<input type="hidden" name="{% if following %}unfollow{% else %}follow{% endif %}">
+		<input type="submit" class="btn btn-lg btn-main" value="{% if following %}{% trans 'Unfollow' %}{% else %}{% trans 'Follow' %}{% endif %}" data-reverse="{% if following %}{% trans 'Follow' %}{% else %}{% trans 'Unfollow' %}{% endif %}">
+	      </form>
+	      {% elif not user.is_authenticated %}
+	      <a href="/signup/" class="btn btn-lg btn-main">Follow</a><br>
+	      {% elif is_me %}
+	      <a href="/settings/" class="btn btn-lg btn-main"><i class="flaticon-edit"></i> {% trans 'Your Settings' %}</a><br>
+	      {% endif %}
+	      {% if total_followers %}
+	      <br><a href="#followers"><strong>{{ total_followers }}</strong> {% trans 'Followers' %}</a>
+	      {% endif %}
+	      {% if total_following %}
+	      <br><a href="#following"><strong>{{ total_following }}</strong> {% trans 'Following' %}</a>
+	      {% endif %}
+	    </div>
+	    <h1 class="glee text-secondary" id="username">{{ profile_user.username }}</h1>
+	    {% if profile_user.preferences.status and profile_user.preferences.status != 'THANKS' %}<a href="/donate/"><h2 style="color: {{ profile_user.preferences.status|statusToColor }}">{{ profile_user.preferences.status|statusToString }}</h2></a>{% endif %}
+	    <br>
+	    <div class="description">{{ profile_user.preferences.description|markdown }}</div>
+	  </div>
+	</div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <table>
+      <tr>
+	{% for link in links %}
+	{% if forloop.counter0|mod:per_line %}
+    </tr></table>
+    <table class="white-table table-responsive text-center table-buttons">
+      <tr>
+	{% endif%}
+	<td>
+	  {% include 'include/link.html' %}
+	</td>
+	{% endfor %}
+      </tr>
+    </table>
+  </div>
+  {% if user_accounts|length == 0 %}
+  <h2>
+    {% if is_me %}
+    <div class="pull-right">
+      <a href="/addaccount/" class="btn btn-main btn-lg">
+	{% trans 'Add Account' %}
+      </a>
+    </div>
+    {% endif %}
+    {% trans 'No account.' %}</h2>
+  {% else %}
+  {% with length=user_accounts|length %}
+  <h2>{% blocktrans count counter=length %}{{ length }} account:{% plural %}{{ length }} accounts:{% endblocktrans %}</h2>
+  {% endwith %}
+  {% for account in user_accounts %}
+  <div class="panel panel-main profile-account" id="{{ account.pk }}">
+    <div class="panel-heading">
+      <h3>
+	{% if is_me %}
+	<div class="pull-right" style="letter-spacing: 10px;">
+	  <a href="/editaccount/{{ account.pk }}/">
+	    <i class="flaticon-edit"></i>
+	  </a>
+	</div>
+	{% endif %}
+	<a href="#{{ account.pk }}">{{ account }}</a></h3>
+    </div>
+    <div class="panel-body">
+      <div class="table-responsive">
+	<table class="table text-center">
+	  <tr>
+	    {% if account.account_id %}
+	    <th>{% trans 'ID' %}</th>
+	    {% endif %}
+	    {% if show_facebook_requests and not account.accept_friend_requests|isnone %}
+	    <th style="width: 300px;">{% trans 'Accept friend requests on Facebook' %}</th>
+	    {% endif %}
+	    {% if not account.os|isnone %}
+	    <th>{% trans 'Operating System' %}</th>
+	    {% endif %}
+	    {% if account.device %}
+	    <th>{% trans 'Device' %}</th>
+	    {% endif %}
+	    {% if account.play_with %}
+	    <th>{% trans 'Play with' %}</th>
+	    {% endif %}
+	    {% if account.cards_total_sr or account.cards_total_ur %}
+	    <th>{% trans 'Significant Cards' %}</th>
+	    {% endif %}
+	    {% if account.rank %}
+	    <th>{% trans 'Rank' %}</th>
+	    {% endif %}
+	  </tr>
+	  <tr>
+	    {% if account.account_id %}
+	    <td>{{ account.account_id }}</td>
+	    {% endif %}
+	    {% if show_facebook_requests and not account.accept_friend_requests|isnone %}
+	    <td>{% if account.accept_friend_requests %}{% trans 'Yes' %}{% else %}{% trans 'No' %}{% endif %}</td>
+	    {% endif %}
+	    {% if not account.os|isnone %}
+	    <td>
+	      <i class="flaticon-{{ account.os }}"></i>
+	      {{ account.os }}
+	    </td>
+	    {% endif %}
+	    {% if account.device %}
+	    <td>{{ account.device }}</td>
+	    {% endif %}
+	    {% if account.play_with %}
+	    <td>
+	      {% if account.play_with == 'Thumbs' %}<i class="flaticon-thumbs"></i>{% elif account.play_with == 'Fingers' or account.play_with == 'Hand' %}<i class="flaticon-fingers"></i>{% elif account.play_with == 'Index' %}<i class="flaticon-index"></i>{% endif %}
+	      {{ account.play_with|playwithToString }}</td>
+	    {% endif %}
+	    {% if account.cards_total_sr or account.cards_total_ur %}
+	    <td><strong>{{ account.cards_total_sr }} SR</strong> {% trans 'and' %} <strong>{{ account.cards_total_ur }} UR</strong></td>
+	    {% endif %}
+	    {% if account.rank %}
+	    <td><h3 class="padding-novertical margin-novertical">{{ account.rank }}</h3></td>
+	    {% endif %}
+	  </tr>
+	</table>
+      </div>
+
+      {% if profile_user.preferences.private and not is_me %}
+      <div class="padding20 padding-novertical">
+	<div class="padding10"><small>{% trans 'This profile is private, so it is not possible to see the cards, activities and events participations.' %}</small></div>
+      </div>
+      {% else %}
+      <div class="padding20 padding-novertical">
+	<ul class="nav nav-tabs">
+	  <li role="presentation" class="active"><a href="#accountTabCards{{ account.pk }}" data-toggle="tab"><i class="flaticon-cards"></i> {% trans 'Cards' %}</a></li>
+	  <li role="presentation"><a href="#accountTabActivities{{ account.pk }}" data-toggle="tab"><i class="flaticon-activities"></i> {% trans 'Activities' %}</a></li>
+	  {# <li role="presentation"><a href="#accountTabEvents{{ account.pk }}" data-toggle="tab"><i class="flaticon-event"></i> {% trans 'Events' %}</a></li> #}
+	</ul>
+      </div>
+      <br>
+
+      <div class="tab-content">
+	<div id="accountTabCards{{ account.pk }}" class="tab-pane fade in active">
+	  {% include 'include/profile_tab_ownedcards.html' %}
+        </div>
+	<div id="accountTabActivities{{ account.pk}}" class="tab-pane fade"></div>
+	<div id="accountTabEvents{{ account.pk }}" class="tab-pane fade"></div>
+      </div>
+      {% endif %}
+      
+    </div> <!-- panel-body -->
+  </div> <!-- panel -->
+  <br><br>
+  {% endfor %}
+  {% endif %}
+  <br><br>
+  {% include 'include/disqus.html' with disqus_identifier='user-'|addint:profile_user.id %}
+</div>
+
+{% endblock %}

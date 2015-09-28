@@ -4,6 +4,8 @@
 
 {% block title %}{% trans 'Card' %}: {{ card }}{% endblock %}
 {% block js %}
+<script type="text/javascript" src="{% url 'django.views.i18n.javascript_catalog' %}"></script>
+<script src="/static/js/cards.js"></script>
 {% endblock %}
 
 {% block content %}

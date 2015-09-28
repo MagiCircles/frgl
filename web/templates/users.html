@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+
+{% block title %}{% trans 'Users' %}{% endblock %}
+{% block js %}
+<script type="text/javascript" src="{% url 'django.views.i18n.javascript_catalog' %}"></script>
+<script src="/static/js/users.js"></script>
+{% endblock %}
+
+{% block content %}
+{% load bootstrap %}
+{% load choices %}
+<h1 class="hidden">{% trans 'Users' %}</h1>
+<div id="wrapper" class="active">
+  <nav id="sidebar-wrapper">
+    <form class="form-horizontal" method="get" action="" role="form">
+      {{ filter_form|bootstrap }}
+      {# include "bootstrap_form_horizontal.html" with form=filter_form wrap=0 #}
+      <br>
+      <button type="submit" class="btn btn-lg btn-white btn-block" data-form-loader="true"><i class="flaticon-search"></i> {% trans 'Search' %}</button>
+    </form>
+  </nav>
+  <div id="page-content-wrapper">
+    <a href="#" id="togglebutton">
+      <i class="flaticon-search"></i>
+      <i class="flaticon-toggler hidder"></i>
+    </a>
+    {% if total_results and show_search_results %}
+    <div class="padding20">
+      {% blocktrans count counter=total_results %}{{ counter }} user matches your search:{% plural %}{{ counter }} users match your search:{% endblocktrans %}
+    </div>
+    {% endif %}
+    <div class="padding50 users">
+      {% include "usersPage.html" %}
+      </div>
+  </div> <!-- page-content-wrapper -->
+</div> <!-- wrapper -->
+
+{% endblock %}

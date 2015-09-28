@@ -1,0 +1,14 @@
+{% extends "form.html" %}
+{% load i18n %}
+{% load choices %}
+
+{% block title %}{% trans 'Add Account' %}{% endblock %}
+
+{% block submit %}{% trans 'Add Account' %}{% endblock %}
+{% block otherbuttons %}
+{% if advanced %}
+<a href="?simple" class="btn btn-lg btn-link">{% trans 'Simple' %}</a>
+{% else %}
+<a href="?advanced" class="btn btn-lg btn-link">{% trans 'Advanced' %}</a>
+{% endif %}
+{% endblock %}

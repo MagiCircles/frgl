@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+
+{% block title %}{% trans 'Wiki' %}{% endblock %}
+{% block js %}
+<script type="text/javascript" src="{% url 'django.views.i18n.javascript_catalog' %}"></script>
+<script type="text/javascript" src="/static/bower/marked/lib/marked.js"></script>
+<script type="text/javascript" src="/static/bower/github-wiki/js/githubwiki.js"></script>
+<script src="/static/js/wiki.js"></script>
+{% endblock %}
+
+{% block content %}
+{% load tools %}
+<div class="container">
+  <div class="row">
+    <div class="col-lg-2"></div>
+    <div class="col-lg-8">
+      <h1 class="text-center padding50">
+	{% if wiki_url == 'Home' %}
+	{% trans 'Wiki' %}
+	<span id="wiki-title" class="hidden">Home</span>
+	{% else %}
+	<span id="wiki-title">{{ wiki_url }}</span>
+	<br><a href="/wiki/"><small>{% trans 'Back to Wiki Home' %}</small></a>
+	{% endif %}
+      </h1>
+      <div id="wiki-content"></div>
+      <div class="text-right">
+	<br><br><br>
+	<a href="https://github.com/SchoolIdolTomodachi/frgl/wiki/Home/_edit" target="_blank" class="btn btn-main btn-lg edit-link">{% trans 'Edit this wiki page' %}</a><br>
+	<small class="text-muted">{% trans 'Note: You need an account on GitHub to edit wiki pages' %}</small>
+      </div>
+    </div>
+    <div class="col-lg-2"></div>
+  </div>
+</div>
+{% endblock %}

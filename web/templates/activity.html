@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{{ activity }}{% endblock %}
+
+{% block content %}
+{% load tools %}
+<div class="container" id="events">
+  <h1 class="text-center padding50">{{ activity }}</h1>
+  <div class="bigger">
+    {% include 'include/activitysingle.html' %}
+  </div>
+  {% include 'include/disqus.html' with disqus_identifier='activity-'|addint:activity.id %}
+  <br><br>
+</div>
+{% endblock %}

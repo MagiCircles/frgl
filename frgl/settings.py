@@ -63,6 +63,7 @@ ROOT_URLCONF = 'frgl.urls'
 
 WSGI_APPLICATION = 'frgl.wsgi.application'
 
+LOGIN_REDIRECT_URL = '/cards/'
 
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
@@ -92,11 +93,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
 STATIC_URL = '/static/'
-CORS_ORIGIN_ALLOW_ALL = True
-CORS_URLS_REGEX = r'^/api/.*$'
+
+# CORS
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_URLS_REGEX = r'^/api/.*$'
+
+# Local Settings
 
 try:
     from local_settings import *

@@ -1,0 +1,5 @@
+<div class="followlist">
+{% for user in follow %}
+{% include 'include/avatar.html' with av_user=user av_image_size=100 av_size=30 av_link=True av_external=True av_username=True av_class='btn-lg' av_button=True av_fixed=True %}
+{% endfor %}
+</div>

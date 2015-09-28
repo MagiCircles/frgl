@@ -1,0 +1,24 @@
+{% load i18n %}
+      {% if ajax %}
+      {% else %}
+      {% if card.type == 'unlock' or card.type == 'stageup' %}
+      <div class="addcard">
+	<form method="post" action="/ajax/addcard/{{ card.id }}/" class="addcardform">
+	  {% csrf_token %}
+	  {% if not accounts %}
+	  {% elif accounts|length == 1 %}
+	  <input type="hidden" name="account" value="{{ accounts.0.pk }}" />
+	  {% elif accounts|length > 1 %}
+	  <select name="account">
+	    {% for account in accounts %}
+	    <option value="{{ account.pk }}">{{ account }}</option>
+	    {% endfor %}
+	  </select>
+	  {% endif %}
+	  <{% if user.is_authenticated and accounts|length > 0 %}button type="submit"{% elif user.is_authenticated %}a href="/addaccount/"{% else %}a href="/signup/"{% endif %} class="btn btn-{% if card.type == 'stageup' %}{% if card.parent.rarity %}{{ card.parent.rarity }}{% else %}C{% endif %}{% else %}{% if card.rarity %}{{ card.rarity }}{% else %}C{% endif %}{% endif %}" style="border-radius: 50px;" data-manual-popover="true">
+	  {% trans 'Add this card<br>to your collection' %}
+	  {% if user.is_authenticated and accounts|length > 0 %}</button>{% else %}</a>{% endif %}
+        </form>
+      </div>
+      {% endif %}
+      {% endif %}

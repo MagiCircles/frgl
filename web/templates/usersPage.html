@@ -1,0 +1,57 @@
+{% load i18n %}
+{% load tools %}
+{% if accounts|length == 0 %}
+{% if show_no_result %}
+<div class="padding50">
+  <h4 class="padding50 alert alert-info">
+    {% trans 'No result.' %}
+  </h4>
+</div>
+{% endif %}
+{% else %}
+
+{% for account in accounts %}
+<a href="/user/{{ account.owner.username }}/#{{ account.id }}" class="userrow">
+<div class="row">
+  {% if account.position %}
+  <div class="col-xs-2">
+    <div class="rank">
+      <i class="flaticon-star"></i>
+      <span class="rank_position">
+	# {{ account.position }}
+      </span>
+    </div>
+  </div>
+  {% endif %}
+  <div class="col-xs-2">
+    <div class="padding20{% if account.position %}{{ hidden-xs %}{% endif %}">
+      {% include 'include/avatar.html' with av_user=account.owner av_size=20 av_image_size=100 av_account_id=account.id av_fixed=True %}
+    </div>
+  </div>
+  <div class="col-xs-{% if account.position %}8{% else %}10{% endif %}">
+    <div class="row">
+      <div class="col-sm-8">
+	<h4 class="padding30 padding-nohorizontal fontx2">{% if account.nickname %}{{ account.nickname }}{% else %}{{ account.owner.username }}{% endif %}
+	  {% if account.nickname and account.owner.username != account.nickname %}<small>{% trans 'by' %} {{ account.owner.username }}</small>{% endif %}
+	</h4>
+      </div>
+      <div class="col-sm-2 text-right">
+	<div class="padding30 padding-nohorizontal">
+	  <br>
+	  <span data-disqus-identifier="user-{{ account.owner.id }}">{% trans 'Comments' %}</span>
+	</div>
+      </div>
+      <div class="col-sm-2">
+	<div class="padding30 padding-nohorizontal text-right text-main">
+	  {% if account.rank %}
+	  <h4 class="fontx2 padding50 padding-novertical">{{ account.rank}}</h4>
+	  {% endif %}
+	</div>
+      </div>
+    </div>
+  </div>
+</div>
+</a>
+{% endfor %}
+{% include 'include/pagination.html' %}
+{% endif %}
