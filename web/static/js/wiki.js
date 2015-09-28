@@ -1,6 +1,6 @@
 
 function linkRendererTitle(link, title) {
-    return '<a href="http://localhost:1234/wiki/' + link + '" class="internal-wiki-link">' + title + '</a>';
+    return '<a href="http://fr.gl/wiki/' + link + '" class="internal-wiki-link">' + title + '</a>';
 }
 
 function linkRenderer(link) {
