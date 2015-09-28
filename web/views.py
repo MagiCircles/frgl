@@ -88,7 +88,7 @@ def card(request, card=None, ajax=False):
         context['card'].stages = context['card'].children.all().order_by('stage_number')
 
     if ajax:
-        return render(request, 'ajaxcard.html', context)
+        return render(request, 'ajaxCard.html', context)
     return render(request, 'card.html', context)
 
 def addcard(request, type):
@@ -109,7 +109,7 @@ def addcard(request, type):
     context['form'] = form
     context['multipart'] = True
     context['type'] = type
-    return render(request, 'addCard.html', context)
+    return render(request, 'addcard.html', context)
 
 def editcard(request, card):
     if not request.user.is_authenticated() or not request.user.is_staff:
@@ -242,8 +242,8 @@ def addaccount(request):
         form = formClass(initial={
             'nickname': request.user.username
         }, request=request)
-        context['form'] = form
-        return render(request, 'addaccount.html', context)
+    context['form'] = form
+    return render(request, 'addaccount.html', context)
 
 def editaccount(request, account):
     if not request.user.is_authenticated() or request.user.is_anonymous():
