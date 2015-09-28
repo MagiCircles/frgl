@@ -28,9 +28,23 @@ class Migration(migrations.Migration):
             },
             bases=(models.Model,),
         ),
-        migrations.AlterUniqueTogether(
-            name='activity',
-            unique_together=set([('account', 'message', 'rank'), ('account', 'message', 'ownedcard')]),
+        migrations.AlterField(
+            model_name='account',
+            name='accept_friend_requests',
+            field=models.NullBooleanField(verbose_name='Accept friend requests on Facebook'),
+            preserve_default=True,
+        ),
+        migrations.AlterField(
+            model_name='account',
+            name='os',
+            field=models.CharField(blank=True, max_length=10, null=True, verbose_name='Operating System', choices=[(b'Android', b'Android'), (b'iOs', b'iOs')]),
+            preserve_default=True,
+        ),
+        migrations.AlterField(
+            model_name='userlink',
+            name='relevance',
+            field=models.PositiveIntegerField(blank=True, null=True, verbose_name='How often do you tweet/stream/post about Glee?', choices=[(0, 'Never'), (1, 'Sometimes'), (2, 'Often'), (3, 'Every single day')]),
+            preserve_default=True,
         ),
         migrations.AlterField(
             model_name='userpreferences',

@@ -119,8 +119,5 @@ class Activity(models.Model):
 #    eventparticipation = models.ForeignKey(EventParticipation, null=True, blank=True)
     likes = models.ManyToManyField(User, related_name="liked_activities")
 
-    class Meta:
-        unique_together = (('account', 'message', 'ownedcard'), ('account', 'message', 'rank'))
-
     def __unicode__(self):
         return u'%s %s' % (self.account, self.message)
