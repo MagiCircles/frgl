@@ -192,7 +192,10 @@ def profile(request, username):
                 account.item_height = 139 + (max_lines * 110)
                 account.cards_total_sr = sum(card.card.rarity == 'SR' for card in account.cards)
                 account.cards_total_ur = sum(card.card.rarity == 'UR' for card in account.cards)
-                account.selected_performer = user.preferences.favorite_performer.name if user.preferences.favorite_performer else performer_with_max_cards
+                if user.preferences.favorite_performer and user.preferences.favorite_performer in account.performers.keys():
+                    account.selected_performer = user.preferences.favorite_performer.name
+                else:
+                    account.selected_performer = performer_with_max_cards
     context['links'] = list(context['profile_user'].links.all().values())
     context['show_facebook_requests'] = any(link['type'] == 'facebook' for link in context['links'])
     if user.preferences.favorite_performer:
