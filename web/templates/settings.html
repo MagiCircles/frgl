@@ -71,7 +71,6 @@
     <h2 id="settings">{% trans 'Your Settings' %}</h2>
     <br>
     <form method="post" action="">
-      <div class="alert alert-danger">{% blocktrans %}If you change your username, all the external links to your profile will not work anymore. All your comments will be deleted. If you wish to transfer your comments, contact us.{% endblocktrans %}</div>
       {% csrf_token %}
       {% include "bootstrap_form_horizontal.html" with form=form wrap=0 %}
       <br><br>

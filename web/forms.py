@@ -26,7 +26,7 @@ class CreateUserForm(forms.ModelForm):
 class UserForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ('username', 'email')
+        fields = ('email',)
 
 class AddLinkForm(forms.ModelForm):
     class Meta:
