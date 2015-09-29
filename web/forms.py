@@ -5,13 +5,7 @@ from django.db.models.fields import BLANK_CHOICE_DASH
 from web import models
 from django.utils.translation import ugettext_lazy as _, string_concat
 
-class CreateUserForm(forms.ModelForm):
-    password = forms.CharField(widget=forms.PasswordInput())
-
-    def __init__(self, *args, **kwargs):
-        super(CreateUserForm, self).__init__(*args, **kwargs)
-        self.fields['email'].required = True
-
+class _UserCheckEmailForm(forms.ModelForm):
     def clean_email(self):
         email = self.cleaned_data.get('email')
         username = self.cleaned_data.get('username')
@@ -19,11 +13,18 @@ class CreateUserForm(forms.ModelForm):
             raise forms.ValidationError(u'Email addresses must be unique.')
         return email
 
+    def __init__(self, *args, **kwargs):
+        super(_UserCheckEmailForm, self).__init__(*args, **kwargs)
+        self.fields['email'].required = True
+
+class CreateUserForm(_UserCheckEmailForm):
+    password = forms.CharField(widget=forms.PasswordInput())
+
     class Meta:
         model = User
         fields = ('email', 'username', 'password')
 
-class UserForm(forms.ModelForm):
+class UserForm(_UserCheckEmailForm):
     class Meta:
         model = User
         fields = ('email',)
@@ -114,7 +115,6 @@ class FilterCardForm(forms.ModelForm):
 class FilterUserForm(forms.ModelForm):
     search = forms.CharField(required=False)
     favorite_performer = forms.ModelChoiceField(queryset=models.Performer.objects.all(), required=False)
-    accept_friend_requests = forms.ChoiceField(choices=(BLANK_CHOICE_DASH + list(((2, _('Yes')), (3, _('No'))))), required=False)
     ordering = forms.ChoiceField(choices=[
         ('rank', _('Rank')),
         ('owner__date_joined', _('Creation')),
@@ -125,7 +125,7 @@ class FilterUserForm(forms.ModelForm):
 
     class Meta:
         model = models.Account
-        fields = ('favorite_performer', 'os', 'accept_friend_requests')
+        fields = ('search', 'favorite_performer', 'os', 'accept_friend_requests')
 
 class CardForm(forms.ModelForm):
     type = 'reward'

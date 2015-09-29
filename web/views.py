@@ -474,20 +474,25 @@ def users(request, ajax=False):
     context = globalContext(request)
 
     accounts = models.Account.objects.filter(owner__preferences__private=False)
-    if 'search' in request.GET:
-        if request.GET['search']:
-            terms = request.GET['search'].split(' ')
-            for term in terms:
-                accounts = accounts.filter(Q(owner__username__icontains=term)
-                                           | Q(owner__preferences__description__icontains=term)
-                                           | Q(owner__preferences__location__icontains=term)
-                                           | Q(owner__links__value__icontains=term)
-                                           | Q(owner__email__iexact=term)
-                                           | Q(nickname__icontains=term)
-                                           | Q(account_id__iexact=term)
-                                       )
+    if 'search' in request.GET and request.GET['search']:
+        terms = request.GET['search'].split(' ')
+        for term in terms:
+            accounts = accounts.filter(Q(owner__username__icontains=term)
+                                       | Q(owner__preferences__description__icontains=term)
+                                       | Q(owner__preferences__location__icontains=term)
+                                       | Q(owner__links__value__icontains=term)
+                                       | Q(owner__email__iexact=term)
+                                       | Q(nickname__icontains=term)
+                                       | Q(account_id__iexact=term)
+            )
     if 'play_with' in request.GET and request.GET['play_with']:
         accounts = accounts.filter(play_with=request.GET['play_with'])
+    if 'os' in request.GET and request.GET['os']:
+        accounts = accounts.filter(os=request.GET['os'])
+    try:
+        if 'accept_friend_requests' in request.GET and int(request.GET['accept_friend_requests']) > 1:
+            accounts = accounts.filter(accept_friend_requests=request.GET['accept_friend_requests'])
+    except ValueError: pass
 
     reverse = ('reverse_order' in request.GET and request.GET['reverse_order']) or not request.GET or len(request.GET) == 1
     ordering = request.GET['ordering'] if 'ordering' in request.GET and request.GET['ordering'] else 'rank'
@@ -510,7 +515,10 @@ def users(request, ajax=False):
     context['accounts'] = accounts
     context['page'] = page + 1
     context['page_size'] = page_size
-    context['filter_form'] = forms.FilterUserForm(request.GET)
+    if len(request.GET) > 1 or (len(request.GET) == 1 and 'page' not in request.GET):
+        context['filter_form'] = forms.FilterUserForm(request.GET)
+    else:
+        context['filter_form'] = forms.FilterUserForm()
     context['show_no_result'] = not ajax
     context['colsize'] = 3
     context['perline'] = 4
