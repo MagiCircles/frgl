@@ -48,7 +48,7 @@ def cards(request, card=None, ajax=False):
     if 'trigger' in request.GET and request.GET['trigger']:
         cards = cards.filter(trigger__exact=request.GET['trigger'])
 
-    reverse = 'reverse_order' in request.GET and request.GET['reverse_order']
+    reverse = ('reverse_order' in request.GET and request.GET['reverse_order']) or not request.GET or len(request.GET) == 1
     ordering = request.GET['ordering'] if 'ordering' in request.GET and request.GET['ordering'] else 'creation'
     prefix = '-' if reverse else ''
     cards = cards.order_by(prefix + ordering)

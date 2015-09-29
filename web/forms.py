@@ -105,6 +105,8 @@ class FilterCardForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(FilterCardForm, self).__init__(*args, **kwargs)
+        self.fields['rarity'].choices = BLANK_CHOICE_DASH + list(models.RARITY)
+        self.fields['rarity'].initial = False
         self.fields['rarity'].required = False
         self.fields['type'].required = False
         self.fields['performer'].required = False
