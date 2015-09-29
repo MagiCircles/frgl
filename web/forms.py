@@ -160,6 +160,7 @@ class UnlockCardForm(CardForm):
     def save(self, commit=True):
         instance = super(UnlockCardForm, self).save(commit=False)
         instance.attributes = ','.join(self.cleaned_data['attributes'])
+        instance.children.all().update(rarity=instance.rarity, performer=instance.performer, attributes=instance.attributes)
         if commit:
             instance.save()
         return instance
@@ -174,6 +175,15 @@ class StageUpCardForm(CardForm):
     def __init__(self, *args, **kwargs):
         super(StageUpCardForm, self).__init__(*args, **kwargs)
         self.fields['parent'].queryset = self.fields['parent'].queryset.filter(type='unlock')
+
+    def save(self, commit=True):
+        instance = super(StageUpCardForm, self).save(commit=False)
+        instance.rarity = instance.parent.rarity
+        instance.performer = instance.parent.performer
+        instance.attributes = instance.parent.attributes
+        if commit:
+            instance.save()
+        return instance
 
     class Meta:
         model = models.Card
