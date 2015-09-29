@@ -193,7 +193,7 @@ def profile(request, username):
                 account.cards_total_sr = sum(card.card.rarity == 'SR' for card in account.cards)
                 account.cards_total_ur = sum(card.card.rarity == 'UR' for card in account.cards)
                 if user.preferences.favorite_performer and user.preferences.favorite_performer in account.performers.keys():
-                    account.selected_performer = user.preferences.favorite_performer.name
+                    account.selected_performer = user.preferences.favorite_performer
                 else:
                     account.selected_performer = performer_with_max_cards
     context['links'] = list(context['profile_user'].links.all().values())
