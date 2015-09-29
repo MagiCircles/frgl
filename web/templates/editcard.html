@@ -8,3 +8,7 @@
 {% block otherbuttons %}
 <a href="/cards/" class="btn btn-link">{% trans 'Back to cards' %}</a>
 {% endblock %}
+{% block js %}
+{% include 'include/cardsCuteForm.html' %}
+<script src="/static/js/addcard.js"></script>
+{% endblock %}

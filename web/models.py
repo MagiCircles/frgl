@@ -3,6 +3,7 @@ from django.contrib.auth.models import User, Group
 from django.core import validators
 from django.utils.translation import ugettext_lazy as _, string_concat
 from web.model_choices import *
+from web import raw
 import hashlib, urllib
 
 class Performer(models.Model):
@@ -74,28 +75,59 @@ class Card(models.Model):
     creation = models.DateTimeField(auto_now_add=True)
     type = models.CharField(max_length=12, choices=CARD_TYPES)
     parent = models.ForeignKey('self', related_name='children', null=True)
-    rarity = models.CharField(max_length=12, choices=RARITY, null=True, blank=True)
+    rarity = models.CharField(max_length=12, choices=RARITY, default='C')
     image = models.ImageField(upload_to='cards')
     performer = models.ForeignKey(Performer, related_name='cards', null=True)
     attributes = models.CharField(max_length=100, null=True, blank=True)
     stage_number = models.PositiveIntegerField(null=True, validators=[validators.MaxValueValidator(4), validators.MinValueValidator(1)])
-    name = models.CharField(max_length=200, null=True, blank=True)
-    sentence = models.CharField(max_length=200, null=True, blank=True)
+    name = models.CharField(_('Collection'), max_length=200, null=True, blank=True, help_text=_('Cheerio, Glam Girl, Believer, ...'))
+    sentence = models.CharField(max_length=200, null=True, blank=True, help_text=_('The sentence you see when you get the story card.'))
     add_value = models.PositiveIntegerField(null=True, blank=True)
     reward_type = models.CharField(max_length=20, choices=REWARDS, null=True, blank=True)
-    max_level = models.PositiveIntegerField(null=True, blank=True)
-    minimum_performance = models.PositiveIntegerField(null=True, blank=True)
-    maximum_performance = models.PositiveIntegerField(null=True, blank=True)
-    max_level_reward = models.PositiveIntegerField(null=True, blank=True)
+    maximum_performance_ability = models.PositiveIntegerField(null=True, blank=True, help_text=_('The highest performance ability for this card at this stage.'))
     skill = models.CharField(max_length=60, choices=SKILL_TYPES, null=True, blank=True)
-    skill_value = models.PositiveIntegerField(null=True, blank=True)
-    trigger_value = models.PositiveIntegerField(null=True, blank=True)
-    trigger_chance = models.PositiveIntegerField(null=True, blank=True)
+    skill_value = models.PositiveIntegerField(null=True, blank=True, help_text=_('The number you see in the sentence that explains what is the effect of the skill.'))
+    trigger_value = models.PositiveIntegerField(null=True, blank=True, help_text=_('The number you see in the sentence that explains when the skill can be activated.'))
+    trigger_chance = models.PositiveIntegerField(null=True, blank=True, help_text=_('The % chance of skill activation.'))
+
+    def _rarityData(self, data):
+        value = -1
+        if self.type == 'unlock':
+            value = raw.cards_data[self.rarity][data][1]
+        elif self.stage_number:
+            value = raw.cards_data[self.rarity][data][self.stage_number + 1]
+        return value if value != -1 else '?'
+
+    @property
+    def max_level(self):
+        return self._rarityData('levels')
+
+    @property
+    def max_level_at_max_stage(self):
+        return raw.cards_data[self.rarity]['levels'][raw.cards_data[self.rarity]['stages'] + 1]
+
+    @property
+    def maximum_performance(self):
+        if self.maximum_performance_ability:
+            return self.maximum_performance_ability
+        return self._rarityData('performances')
+
+    @property
+    def experience(self):
+        return self._rarityData('experiences')
+
+    @property
+    def max_level_reward(self):
+        return raw.cards_data[self.rarity]['max_level_reward']
+
+    @property
+    def minimum_performance(self):
+        return raw.cards_data[self.rarity]['performances'][0]
 
     def __unicode__(self):
         if self.name:
-            return u'{}: {}'.format(cardTypeToString(self.type), self.name)
-        return u'{}: {} {}'.format(cardTypeToString(self.type), (self.name if self.name else (self.parent.name if self.parent else '')), (self.performer if self.performer else (self.parent.performer.name if self.parent else '')))
+            return u'{} [{}]: {}'.format(cardTypeToString(self.type), self.rarity, self.name)
+        return u'{} [{}]: {} {}'.format(cardTypeToString(self.type), self.rarity, (self.name if self.name else (self.parent.name if self.parent else '')), (self.performer if self.performer else (self.parent.performer.name if self.parent else '')))
 
     class Meta:
         unique_together = (('parent', 'stage_number'),)

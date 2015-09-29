@@ -80,6 +80,19 @@
 		{% else %}?{% endif %}
 	      </div>
 	    </div>
+	    <div class="experience_required">
+	      {% if stageup %}{{ stageup.experience }}{% else %}{{ card.experience }}{% endif %}
+	      {% trans 'XP to reach lv.' %}
+	      {% if stageup %}
+	      {% if stageup.max_level %}
+	      {{ stageup.max_level }}
+	      {% else %}?{% endif %}
+	      {% else %}
+	      {% if card.max_level %}
+	      {{ card.max_level }}
+	      {% else %}?{% endif %}
+	      {% endif %}
+	    </div>
 	  </div>
 	  <div class="col-sm-6">
 	    <div class="level">
@@ -104,6 +117,12 @@
 		{% else %}?{% endif %}
 		{% endif %}
 	      </div>
+	    </div>
+	    <div class="max_level_reward">
+	      {% with max_level_at_max_stage=card.max_level_at_max_stage max_level_reward=card.max_level_reward %}
+	      {% blocktrans %}Reach lv.{{ max_level_at_max_stage }} to earn {{ max_level_reward }}{% endblocktrans %}
+	      {% endwith %}
+	      <img src="/static/img/glee.png" width="20" height="20">
 	    </div>
 	  </div>
 	</div>

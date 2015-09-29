@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.models import User, Group
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models.fields import BLANK_CHOICE_DASH
-from web import models
+from web import models, raw
 from django.utils.translation import ugettext_lazy as _, string_concat
 
 class _UserCheckEmailForm(forms.ModelForm):
@@ -105,8 +105,10 @@ class FilterCardForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(FilterCardForm, self).__init__(*args, **kwargs)
+        self.fields['rarity'].required = False
         self.fields['type'].required = False
         self.fields['performer'].required = False
+        self.fields['skill'].help_text = None
 
     class Meta:
         model = models.Card
@@ -161,13 +163,20 @@ class UnlockCardForm(CardForm):
         instance = super(UnlockCardForm, self).save(commit=False)
         instance.attributes = ','.join(self.cleaned_data['attributes'])
         instance.children.all().update(rarity=instance.rarity, performer=instance.performer, attributes=instance.attributes)
+        if instance.rarity == 'C':
+            instance.skill = None
+            instance.skill_value = None
+            instance.trigger_value = None
+            instance.trigger_chance = None
+        if instance.rarity == 'C' or instance.rarity == 'R':
+            instance.maximum_performance_ability = None
         if commit:
             instance.save()
         return instance
 
     class Meta:
         model = models.Card
-        fields = ('image', 'rarity', 'performer', 'attributes', 'name', 'sentence', 'max_level', 'minimum_performance', 'maximum_performance', 'max_level_reward', 'skill', 'skill_value', 'trigger_value', 'trigger_chance')
+        fields = ('image', 'rarity', 'performer', 'attributes', 'name', 'sentence', 'maximum_performance_ability', 'skill', 'skill_value', 'trigger_value', 'trigger_chance')
 
 class StageUpCardForm(CardForm):
     type = 'stageup'
@@ -176,18 +185,28 @@ class StageUpCardForm(CardForm):
         super(StageUpCardForm, self).__init__(*args, **kwargs)
         self.fields['parent'].queryset = self.fields['parent'].queryset.filter(type='unlock')
 
+    def clean(self):
+        if 'stage_number' in self.cleaned_data:
+            parent = self.cleaned_data['parent']
+            max_stage_number_for_rarity = raw.cards_data[parent.rarity]['stages']
+            if self.cleaned_data['stage_number'] > max_stage_number_for_rarity:
+                raise forms.ValidationError(_('The maximum stage number for {} card is {}.').format(parent.rarity, max_stage_number_for_rarity))
+        return self.cleaned_data
+
     def save(self, commit=True):
         instance = super(StageUpCardForm, self).save(commit=False)
         instance.rarity = instance.parent.rarity
         instance.performer = instance.parent.performer
         instance.attributes = instance.parent.attributes
+        if instance.rarity == 'C' or instance.rarity == 'R':
+            instance.maximum_performance_ability = None
         if commit:
             instance.save()
         return instance
 
     class Meta:
         model = models.Card
-        fields = ('parent', 'image', 'stage_number', 'sentence', 'maximum_performance', 'max_level')
+        fields = ('parent', 'image', 'stage_number', 'sentence', 'maximum_performance_ability')
 
 cardTypeForms = {
     'reward': RewardCardForm,
