@@ -57,7 +57,7 @@
 	      <button type="submit" class="btn btn-link btn-sm" data-reverse="{% if user in activity.likers %}<i class='flaticon-heart-empty'></i> Like{% else %}<i class='flaticon-heart'></i> Liked{% endif %}">{% if user in activity.likers %}<i class='flaticon-heart'></i> Liked{% else %}<i class='flaticon-heart-empty'></i> Like{% endif %}</button>
 	      {% endif %}
 	      {% else %}
-	      <a href="/create/" class="btn btn-link btn-sm"><i class="flaticon-heart"></i> Like</a>
+	      <a href="/signup/" class="btn btn-link btn-sm"><i class="flaticon-heart"></i> Like</a>
 	      {% endif %}
 	      <a href="#likecount" class="btn btn-link btn-sm" data-manual-popover="true">{{ activity.likers|length|add:1 }}</a>
 	    </div>
