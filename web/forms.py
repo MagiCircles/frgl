@@ -114,7 +114,7 @@ class FilterCardForm(forms.ModelForm):
 
     class Meta:
         model = models.Card
-        fields = ('type', 'performer', 'rarity', 'skill')
+        fields = ('search', 'type', 'performer', 'rarity', 'skill', 'attributes', 'ordering', 'reverse_order')
 
 class FilterUserForm(forms.ModelForm):
     search = forms.CharField(required=False)

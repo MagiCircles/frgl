@@ -31,7 +31,7 @@ def cards(request, card=None, ajax=False):
             for term in terms:
                 cards = cards.filter(Q(name__icontains=term)
                                      | Q(performer__name__icontains=term)
-                                     | Q(sentence__name__icontains=term)
+                                     | Q(sentence__icontains=term)
                                      | Q(skill__icontains=term)
                                  )
     if 'performer' in request.GET and request.GET['performer']:
