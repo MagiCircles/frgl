@@ -125,9 +125,10 @@ class Card(models.Model):
         return raw.cards_data[self.rarity]['performances'][0]
 
     def __unicode__(self):
-        if self.name:
-            return u'{} [{}]: {}'.format(cardTypeToString(self.type), self.rarity, self.name)
-        return u'{} [{}]: {} {}'.format(cardTypeToString(self.type), self.rarity, (self.name if self.name else (self.parent.name if self.parent else '')), (self.performer if self.performer else (self.parent.performer.name if self.parent else '')))
+        return u'{} [{}]: {} {}'.format(cardTypeToString(self.type),
+                                        self.rarity,
+                                        (self.name if self.name else (self.parent.name if self.parent else '')),
+                                        (self.performer if self.performer else (self.parent.performer.name if self.parent else '')))
 
     class Meta:
         unique_together = (('parent', 'stage_number'),)
