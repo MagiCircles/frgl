@@ -66,7 +66,10 @@ def cards(request, card=None, ajax=False):
     context['cards'] = cards
     context['page'] = page + 1
     context['page_size'] = page_size
-    context['filter_form'] = forms.FilterCardForm(request.GET)
+    if len(request.GET) > 1 or (len(request.GET) == 1 and 'page' not in request.GET):
+        context['filter_form'] = forms.FilterCardForm(request.GET)
+    else:
+        context['filter_form'] = forms.FilterCardForm()
     context['show_no_result'] = not ajax
     context['colsize'] = 3
     context['perline'] = 4
