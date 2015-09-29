@@ -353,23 +353,22 @@ def ajaxaddcard(request, card):
     # only 1 card of the same "family" can be owned by account
     try:
         ownedcard = models.OwnedCard.objects.filter(account=account).get(Q(card=card)
-                                                                          | Q(card=card.parent)
-                                                                          | Q(card__in=(card.parent.children.all() if card.parent else [])))
-        activity = models.Activity.objects.get(ownedcard=ownedcard)
-        activity.ownedcard = None
-        activity.save()
-    except ObjectDoesNotExist: pass
-    if ownedcard:
-        ownedcard.delete()
-    ownedcard = models.OwnedCard.objects.create(account=account, card=card)
-    if activity:
-        activity.ownedcard = ownedcard
-        activity.creation = timezone.now()
-        activity.save()
-    else:
+                                                                         | Q(card=card.parent)
+                                                                         | Q(card__in=card.children.all())
+                                                                         | Q(card__in=(card.parent.children.all() if card.parent else [])))
+        ownedcard.card = card
+        ownedcard.save()
+        try:
+            activity = models.Activity.objects.get(ownedcard=ownedcard)
+            activity.creation = timezone.now()
+            activity.save()
+        except ObjectDoesNotExist: pass
+    except ObjectDoesNotExist:
+        ownedcard = models.OwnedCard.objects.create(account=account, card=card)
         pushActivity(account=ownedcard.account,
                      message="Added a card",
                      ownedcard=ownedcard)
+
     return HttpResponse('added ' + str(ownedcard.pk))
 
 def ajaxdeleteownedcard(request, card):
