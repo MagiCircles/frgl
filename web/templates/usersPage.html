@@ -38,13 +38,13 @@
       <div class="col-sm-2 text-right">
 	<div class="padding30 padding-nohorizontal">
 	  <br>
-	  <span data-disqus-identifier="user-{{ account.owner.id }}">{% trans 'Comments' %}</span>
+	  <span class="disqus-comment-count" data-disqus-identifier="user-{{ account.owner.id }}">{% trans 'Comments' %}</span>
 	</div>
       </div>
       <div class="col-sm-2">
 	<div class="padding30 padding-nohorizontal text-right text-main">
 	  {% if account.rank %}
-	  <h4 class="fontx2 padding50 padding-novertical">{{ account.rank}}</h4>
+	  <h4 class="fontx2 padding50 padding-novertical">{{ account.rank }}</h4>
 	  {% endif %}
 	</div>
       </div>
