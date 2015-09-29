@@ -41,10 +41,10 @@
 	</div>
 	<div class="collapse navbar-collapse collapse">
 	  <ul class="nav navbar-nav navbar-right">
+	    <li class="{% if current == 'wiki' %}active{% endif %}"><a href="/wiki/"><i class="flaticon-about"></i><span class="hidden-sm"> &nbsp; {% trans 'Wiki' %}</span></a></li>
 	    <li class="{% if current == 'cards' %}active{% endif %}"><a href="/cards/"><i class="flaticon-album"></i><span class="hidden-sm"> &nbsp; {% trans 'Cards' %}</span></a></li>
 	    {# <li class="{% if current == 'performers' %}active{% endif %}"><a href="/performers/"><i class="flaticon-idolized"></i><span class="hidden-sm"> &nbsp; {% trans 'Performers' %}</span></a></li>  #}
 	    {# <li class="{% if current == 'events' %}active{% endif %}"><a href="/events/"><i class="flaticon-event"></i><span class="hidden-sm"> &nbsp; {% trans 'Events' %}</span></a></li> #}
-	    <li class="{% if current == 'wiki' %}active{% endif %}"><a href="/wiki/"><i class="flaticon-about"></i><span class="hidden-sm"> &nbsp; {% trans 'Wiki' %}</span></a></li>
 	    <li class="{% if current == 'users' %}active{% endif %}"><a href="/users/"><i class="flaticon-users"></i><span class="hidden-sm"> &nbsp; {% trans 'Gleeks' %}</span></a></li>
 	    {% if user.is_authenticated %}
 	    <li class="dropdown">	 
