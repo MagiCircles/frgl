@@ -196,7 +196,7 @@ def profile(request, username):
                     account.selected_performer = user.preferences.favorite_performer
                 else:
                     account.selected_performer = performer_with_max_cards
-                sorted(account.cards, key=lambda c: (c.card.performer if c.card.performer else (c.card.parent.performer if c.card.parent else None), c.card.rarity if c.card.rarity else c.card.parent.rarity if c.card.parent else None))
+                account.cards = sorted(account.cards, key=lambda c: (c.card.performer if c.card.performer else (c.card.parent.performer if c.card.parent else None), c.card.rarity if c.card.rarity else c.card.parent.rarity if c.card.parent else None))
     context['links'] = list(context['profile_user'].links.all().values())
     context['show_facebook_requests'] = any(link['type'] == 'facebook' for link in context['links'])
     if user.preferences.favorite_performer:
