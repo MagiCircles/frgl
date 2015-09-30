@@ -24,10 +24,10 @@ cards_data = {
         'max_level_reward': 30,
     },
     'UR': {
-        'stages': 4,
-        'experiences': [0, -1, -1, -1, -1, -1],
-        'performances': [80, -1, -1, -1, -1, -1],
-        'levels': [0, 40, 50, 60, 70, 80],
+        'stages': 3,
+        'experiences': [0, -1, -1, -1, -1],
+        'performances': [80, -1, -1, -1, -1],
+        'levels': [0, 40, 60, 80, 100],
         'max_level_reward': 40,
     },
 }
