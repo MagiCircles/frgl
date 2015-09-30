@@ -4,7 +4,7 @@ function linkRendererTitle(link, title) {
 }
 
 function linkRenderer(link) {
-    linkRendererTitle(link, link);
+    return linkRendererTitle(link, link);
 }
 
 $(document).ready(function() {
