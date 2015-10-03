@@ -185,7 +185,7 @@ class StageUpCardForm(CardForm):
 
     def __init__(self, *args, **kwargs):
         super(StageUpCardForm, self).__init__(*args, **kwargs)
-        self.fields['parent'].queryset = self.fields['parent'].queryset.filter(type='unlock')
+        self.fields['parent'].queryset = self.fields['parent'].queryset.filter(type='unlock').order_by('rarity', 'name', 'performer__name')
 
     def clean(self):
         if 'stage_number' in self.cleaned_data:
