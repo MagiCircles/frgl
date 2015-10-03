@@ -724,6 +724,21 @@ a.card:hover, a.card:focus {
 	    }
 	}
     }
+    .card_sentence:not(:empty) {
+	padding: 30px;
+	border-top-right-radius: 10px;
+	border-bottom-right-radius: 10px;
+	margin-right: 20px;
+	&:before, &:after {
+	    font-size: 1.5em;
+	}
+	&:before {
+	    content: "“ ";
+	}
+	&:after {
+	    content: " ”";
+	}
+    }
     .type {
 	margin-top: 25px;
 	color: white;
@@ -839,6 +854,9 @@ a.card:hover, a.card:focus {
 	    background-color: darken(@color, 25%);
 	}
 	.name {
+	    background-color: lighten(@color, 15%);
+	}
+	.card_sentence:not(:empty) {
 	    background-color: lighten(@color, 15%);
 	}
     }

@@ -46,6 +46,15 @@
 	  {% endfor %}
 	</div>
       </div>
+      {% if stageup %}
+      {% if stageup.sentence %}
+      <div class="card_sentence">{{ stageup.sentence }}</div>
+      {% endif %}
+      {% else %}
+      {% if card.sentence %}
+      <div class="card_sentence">{{ card.sentence }}</div>
+      {% endif %}
+      {% endif %}
     </div>
     <div class="col-md-6">
       <div class="type">
