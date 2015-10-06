@@ -19,15 +19,15 @@ cards_data = {
     'SR': {
         'stages': 3,
         'experiences': [0, -1, -1, -1, -1],
-        'performances': [72, -1, -1, -1, -1],
-        'levels': [0, 30, 40, 50, 70],
+        'performances': [72, 273, 316, 368, 400],
+        'levels': [0, 30, 40, 55, 70],
         'max_level_reward': 30,
     },
     'UR': {
         'stages': 3,
         'experiences': [0, -1, -1, -1, -1],
-        'performances': [80, -1, -1, -1, -1],
-        'levels': [0, 40, 60, 80, 100],
+        'performances': [80, 341, -1, -1, -1],
+        'levels': [0, 40, 55, 80, 100],
         'max_level_reward': 40,
     },
 }
