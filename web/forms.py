@@ -158,12 +158,17 @@ class BoostCardForm(CardForm):
         fields = ('image', 'rarity', 'sentence', 'add_value', 'performer')
 
 class UnlockCardForm(CardForm):
-    attributes = forms.MultipleChoiceField(choices=list(models.ATTRIBUTES), required=False)
+    song_types = forms.MultipleChoiceField(choices=list(models.ATTRIBUTES), required=False, label=_('Song types'))
     type = 'unlock'
+
+    def __init__(self, *args, **kwargs):
+        super(UnlockCardForm, self).__init__(*args, **kwargs)
+        if 'instance' in kwargs:
+            self.fields['song_types'].initial = kwargs['instance'].attributes.split(',')
 
     def save(self, commit=True):
         instance = super(UnlockCardForm, self).save(commit=False)
-        instance.attributes = ','.join(self.cleaned_data['attributes'])
+        instance.attributes = ','.join(self.cleaned_data['song_types'])
         instance.children.all().update(rarity=instance.rarity, performer=instance.performer, attributes=instance.attributes)
         if instance.rarity == 'C':
             instance.skill = None
@@ -178,7 +183,7 @@ class UnlockCardForm(CardForm):
 
     class Meta:
         model = models.Card
-        fields = ('image', 'rarity', 'performer', 'attributes', 'name', 'sentence', 'maximum_performance_ability', 'skill', 'skill_value', 'trigger_value', 'trigger_chance')
+        fields = ('image', 'rarity', 'performer', 'song_types', 'name', 'sentence', 'maximum_performance_ability', 'skill', 'skill_value', 'trigger_value', 'trigger_chance')
 
 class StageUpCardForm(CardForm):
     type = 'stageup'
