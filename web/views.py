@@ -95,8 +95,8 @@ def card(request, card=None, ajax=False):
     return render(request, 'card.html', context)
 
 def addcard(request, type):
-    if not request.user.is_authenticated() or not request.user.is_staff:
-        return redirect('/about/#contribute')
+    if not request.user.is_authenticated():
+        return redirect('/signup/')
     context = globalContext(request)
     try:
         formClass = forms.cardTypeForms[type]
@@ -115,8 +115,8 @@ def addcard(request, type):
     return render(request, 'addcard.html', context)
 
 def editcard(request, card):
-    if not request.user.is_authenticated() or not request.user.is_staff:
-        return redirect('/about/#contribute')
+    if not request.user.is_authenticated():
+        return redirect('/signup/')
     context = globalContext(request)
     try:
         card = models.Card.objects.get(pk=card)
