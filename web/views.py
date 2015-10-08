@@ -343,6 +343,12 @@ def ajaxdeletelink(request, link):
         link = models.UserLink.objects.get(owner=request.user, pk=int(link))
     except ObjectDoesNotExist:
         raise PermissionDenied()
+    if link.type == 'facebook':
+        request.user.preferences.facebook = None
+        request.user.preferences.save()
+    elif link.type == 'twitter':
+        request.user.preferences.twitter = None
+        request.user.preferences.save()
     link.delete()
     return HttpResponse('deleted')
 
@@ -494,7 +500,11 @@ def users(request, ajax=False):
         accounts = accounts.filter(os=request.GET['os'])
     try:
         if 'accept_friend_requests' in request.GET and int(request.GET['accept_friend_requests']) > 1:
-            accounts = accounts.filter(accept_friend_requests=request.GET['accept_friend_requests'])
+            if request.GET['accept_friend_requests'] == '2':
+                accounts = accounts.filter(accept_friend_requests=True, owner__links__type='facebook')
+                context['show_facebook_button'] = True
+            else:
+                accounts = accounts.filter(accept_friend_requests=False)
     except ValueError: pass
 
     reverse = ('reverse_order' in request.GET and request.GET['reverse_order']) or not request.GET or len(request.GET) == 1

@@ -55,7 +55,7 @@ class ChangePasswordForm(forms.Form):
         raise forms.ValidationError(_("The two password fields did not match."))
 
 class _AccountForm(forms.ModelForm):
-    facebook = forms.CharField(label='Facebook Username', max_length=64, validators=[models.UserLink.alphanumeric], required=False)
+    facebook = forms.CharField(label='Facebook Username', max_length=64, validators=[models.UserLink.alphanumeric], required=False, help_text=_('Make sure you write your username and not your full name. Your username appears in the URL of your Facebook profile.'))
 
     def __init__(self, *args, **kwargs):
         self.request = kwargs.pop('request', None)

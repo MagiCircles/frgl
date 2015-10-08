@@ -7,8 +7,10 @@ def avatar(user, size):
     return user.preferences.avatar(size)
 register.filter('avatar', avatar)
 
+def linkValueUrl(type, value):
+    return LINK_URLS[type].format(value)
+register.filter('linkValueUrl', linkValueUrl)
+
 def linkUrl(link):
-    if hasattr(link['value'], 'id'):
-        return LINK_URLS[link['type']].format(link['value'].id)
-    return LINK_URLS[link['type']].format(link['value'])
+    return linkValueUrl(link['type'], link['value'].id if hasattr(link['value'], 'id') else link['value'])
 register.filter('linkUrl', linkUrl)

@@ -1,5 +1,6 @@
 {% load i18n %}
 {% load tools %}
+{% load frgl %}
 {% if accounts|length == 0 %}
 {% if show_no_result %}
 <div class="padding50">
@@ -31,6 +32,14 @@
   <div class="col-xs-{% if account.position %}8{% else %}10{% endif %}">
     <div class="row">
       <div class="col-sm-8">
+	<div class="pull-right">
+	  {% if show_facebook_button and account.owner.preferences.facebook %}
+	  <br>
+	  <a href="{{ 'facebook'|linkValueUrl:account.owner.preferences.facebook }}" target="_blank" class="btn btn-lg btn-main">
+	    <img src="/static/img/facebook.png" alt="facebook" width="24" height="24">
+	  </a>
+	  {% endif %}
+	</div>
 	<h4 class="padding30 padding-nohorizontal fontx2">{% if account.nickname %}{{ account.nickname }}{% else %}{{ account.owner.username }}{% endif %}
 	  {% if account.nickname and account.owner.username != account.nickname %}<small>{% trans 'by' %} {{ account.owner.username }}</small>{% endif %}
 	</h4>
