@@ -17,6 +17,13 @@ $(document).ready(function() {
     });
 
     githubwiki.setWiki('SchoolIdolTomodachi', 'frgl');
+
+    // Sidebar
+    githubwiki.get('_Sidebar.md', function(data) {
+	$('#wiki-sidebar').html(data);
+    });
+
+    // Main page
     githubwiki.get(wikiPageUrl + '.md', function(data) {
 	$('#wiki-content').html(data);
     });
