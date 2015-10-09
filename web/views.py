@@ -60,6 +60,7 @@ def cards(request, card=None, ajax=False):
         page = int(request.GET['page']) - 1
         if page < 0:
             page = 0
+    cards = cards.distinct()
     cards = cards.select_related('performer', 'parent')[(page * page_size):((page * page_size) + page_size)]
 
     context['total_pages'] = int(math.ceil(context['total_results'] / page_size))
