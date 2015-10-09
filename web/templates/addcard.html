@@ -5,6 +5,26 @@
 {% block title %}{% trans 'Add Card' %}: {% trans type|cardTypeToString %}{% endblock %}
 {% block imagetitle %}<img src="/static/img/{{ type }}C.png" height="39" />{% endblock %}
 {% block submit %}{% trans 'Add Card' %}{% endblock %}
+
+{% block beforefields %}
+<div class="alert alert-warning">
+  <div class="row">
+    <div class="col-sm-2 text-center hidden-xs">
+      <i class="flaticon-about fontx2"></i>
+    </div>
+    <div class="col-sm-7">
+      {% blocktrans %}Make sure the card you're about to add doesn't already exist.{% endblocktrans %}
+    </div>
+    <div class="col-sm-3 hidden-xs">
+      <a href="/cards/" class="btn btn-main btn-lg btn-block" target="_blank">
+	{% trans 'Cards' %}
+	<i class="flaticon-link"></i>
+      </a>
+    </div>
+  </div>
+</div><br>
+{% endblock %}
+
 {% block js %}
 {% include 'include/cardsCuteForm.html' %}
 <script src="/static/js/addcard.js"></script>
