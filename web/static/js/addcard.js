@@ -15,7 +15,7 @@ function toggleSelectedRarityFields() {
 	$('#id_trigger_value').closest('.form-group').hide();
 	$('#id_trigger_chance').closest('.form-group').hide();
 	$('#id_maximum_performance_ability').closest('.form-group').hide();
-    } else if (rarity == 'R') {
+    } else if (rarity == 'R' || rarity == 'SR') {
 	$('#id_skill').closest('.form-group').show();
 	$('#id_skill_value').closest('.form-group').show();
 	$('#id_trigger_value').closest('.form-group').show();
