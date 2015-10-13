@@ -147,10 +147,18 @@
 	  <div class="row">
 	    <div class="col-sm-8">
 	      <div class="sentence">
+		{% if stageup %}
+		{% if stageup.skill_value %}
+		{{ stageup.skill|skillToSentence:stageup.skill_value }}
+		{% else %}
+		{{ stageup.skill|skillToSentence:"?" }}
+		{% endif %}
+		{% else %}
 		{% if card.skill_value %}
 		{{ card.skill|skillToSentence:card.skill_value }}
 		{% else %}
 		{{ card.skill|skillToSentence:"?" }}
+		{% endif %}
 		{% endif %}
 	      </div>
 	    </div>

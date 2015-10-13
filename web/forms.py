@@ -213,7 +213,7 @@ class StageUpCardForm(CardForm):
 
     class Meta:
         model = models.Card
-        fields = ('parent', 'image', 'stage_number', 'sentence', 'maximum_performance_ability')
+        fields = ('parent', 'image', 'stage_number', 'sentence', 'maximum_performance_ability', 'skill_value')
 
 cardTypeForms = {
     'reward': RewardCardForm,

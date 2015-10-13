@@ -84,7 +84,7 @@ class Card(models.Model):
     reward_type = models.CharField(max_length=20, choices=REWARDS, null=True, blank=True)
     maximum_performance_ability = models.PositiveIntegerField(null=True, blank=True, help_text=_('The highest performance ability for this card at this stage.'))
     skill = models.CharField(max_length=60, choices=SKILL_TYPES, null=True, blank=True)
-    skill_value = models.PositiveIntegerField(null=True, blank=True, help_text=_('The number you see in the sentence that explains what is the effect of the skill.'))
+    skill_value = models.PositiveIntegerField(null=True, blank=True, help_text=_('The number you see in the sentence that explains what is the effect of the skill at this stage.'))
     trigger_value = models.PositiveIntegerField(null=True, blank=True, help_text=_('The number you see in the sentence that explains when the skill can be activated.'))
     trigger_chance = models.PositiveIntegerField(null=True, blank=True, help_text=_('The % chance of skill activation.'))
 
