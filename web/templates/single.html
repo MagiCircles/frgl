@@ -149,9 +149,9 @@
 	      <div class="sentence">
 		{% if stageup %}
 		{% if stageup.skill_value %}
-		{{ stageup.skill|skillToSentence:stageup.skill_value }}
+		{{ card.skill|skillToSentence:stageup.skill_value }}
 		{% else %}
-		{{ stageup.skill|skillToSentence:"?" }}
+		{{ card.skill|skillToSentence:"?" }}
 		{% endif %}
 		{% else %}
 		{% if card.skill_value %}
