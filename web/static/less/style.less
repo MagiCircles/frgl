@@ -729,6 +729,7 @@ a.card:hover, a.card:focus {
 	border-top-right-radius: 10px;
 	border-bottom-right-radius: 10px;
 	margin-right: 20px;
+	margin-bottom: 10px;
 	&:before, &:after {
 	    font-size: 1.5em;
 	}
@@ -737,6 +738,17 @@ a.card:hover, a.card:focus {
 	}
 	&:after {
 	    content: " ”";
+	}
+	&.how_to_obtain {
+	    color: rgba(20, 20, 20, 0.7);
+	    text-align: left;
+	    line-height: 1em;
+	    &:before {
+		content: "";
+	    }
+	    &:after {
+		content: "";
+	    }
 	}
     }
     .type {

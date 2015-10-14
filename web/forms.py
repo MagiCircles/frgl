@@ -183,7 +183,7 @@ class UnlockCardForm(CardForm):
 
     class Meta:
         model = models.Card
-        fields = ('image', 'rarity', 'performer', 'song_types', 'name', 'sentence', 'maximum_performance_ability', 'skill', 'skill_value', 'trigger_value', 'trigger_chance')
+        fields = ('image', 'rarity', 'performer', 'song_types', 'name', 'sentence', 'maximum_performance_ability', 'skill', 'skill_value', 'trigger_value', 'trigger_chance', 'how_to_obtain')
 
 class StageUpCardForm(CardForm):
     type = 'stageup'

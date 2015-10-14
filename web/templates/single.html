@@ -55,6 +55,12 @@
       <div class="card_sentence">{{ card.sentence }}</div>
       {% endif %}
       {% endif %}
+      {% if card.how_to_obtain %}
+      <div class="card_sentence how_to_obtain">
+	{% trans 'How to get it?' %}<br>
+	➜ {{ card.how_to_obtain }}
+      </div>
+      {% endif %}
     </div>
     <div class="col-md-6">
       <div class="type">
