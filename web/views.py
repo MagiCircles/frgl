@@ -108,7 +108,9 @@ def addcard(request, type):
     elif request.method == 'POST':
         form = formClass(request.POST, request.FILES)
         if form.is_valid():
-            card = form.save()
+            card = form.save(commit=False)
+            card.added_by = request.user
+            card.save()
             raise HttpRedirectException('/cards/' + str(card.id) + '/')
     context['form'] = form
     context['multipart'] = True
@@ -129,7 +131,9 @@ def editcard(request, card):
     elif request.method == 'POST':
         form = formClass(request.POST, request.FILES, instance=card)
         if form.is_valid():
-            card = form.save()
+            card = form.save(commit=False)
+            card.modified_by = request.user
+            card.save()
             raise HttpRedirectException('/cards/' + str(card.id) + '/')
     context['card'] = card
     context['form'] = form

@@ -3,6 +3,21 @@
 {% load i18n %}
 
 <div class="text-right">
+
+  {% if stageup %}
+  {% if stageup.added_by %}{% trans 'Added by' %} <a href="/user/{{ stageup.added_by.username }}/">{{ stageup.added_by.username }}</a>{% endif %}
+  {% else %}
+  {% if card.added_by %}{% trans 'Added by' %} <a href="/user/{{ card.added_by.username }}/">{{ card.added_by.username }}</a>{% endif %}
+  {% endif %}
+
+  {% if stageup %}
+  {% if stageup.modified_by %}{% trans 'Modified by' %} <a href="/user/{{ stageup.modified_by.username }}/">{{ stageup.modified_by.username }}</a>{% endif %}
+  {% else %}
+  {% if card.modified_by %}{% trans 'Modified by' %} <a href="/user/{{ card.modified_by.username }}/">{{ card.modified_by.username }}</a>{% endif %}
+  {% endif %}
+
+  &nbsp;&nbsp;&nbsp;
+
   {% if ajax %}
   <a class="btn btn-main btn-lg" href="/card/{% if stageup %}{{ stageup.id }}{% else %}{{ card.id }}{% endif %}/#disqus_thread"
      data-disqus-identifier="card-{{ card.id }}">

@@ -71,6 +71,8 @@ class UserLink(models.Model):
 
 class Card(models.Model):
     creation = models.DateTimeField(auto_now_add=True)
+    added_by = models.ForeignKey(User, related_name='added_cards', null=True, on_delete=models.SET_NULL)
+    modified_by = models.ForeignKey(User, related_name='modified_cards', null=True, on_delete=models.SET_NULL)
     type = models.CharField(max_length=12, choices=CARD_TYPES)
     parent = models.ForeignKey('self', related_name='children', null=True)
     rarity = models.CharField(max_length=12, choices=RARITY, default='C')
