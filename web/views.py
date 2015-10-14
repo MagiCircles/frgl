@@ -30,9 +30,12 @@ def cards(request, card=None, ajax=False):
             terms = request.GET['search'].split(' ')
             for term in terms:
                 cards = cards.filter(Q(name__icontains=term)
+                                     | Q(parent__name__icontains=term)
                                      | Q(performer__name__icontains=term)
+                                     | Q(parent__performer__name__icontains=term)
                                      | Q(sentence__icontains=term)
                                      | Q(skill__icontains=term)
+                                     | Q(parent__skill__icontains=term)
                                  )
     if 'performer' in request.GET and request.GET['performer']:
         cards = cards.filter(performer=request.GET['performer'])
