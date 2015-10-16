@@ -7,7 +7,9 @@
 		    <form method="post" action="/ajax/deleteownedcard/{{ card.id }}/">
 		      {% csrf_token %}
 		      <a href="/card/{{ card.card.id }}/" class="btn btn-main btn-sm"><i class="flaticon-about"></i> {% trans 'About' %}</a>
+		      {% if is_me %}
 		      <button type="submit" class="btn btn-danger btn-sm"><i class="flaticon-delete"></i> {% trans 'Delete' %}</button>
+		      {% endif %}
 		    </form>
 		  </div>
 		  {% endif %}

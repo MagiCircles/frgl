@@ -391,7 +391,7 @@ def ajaxaddcard(request, card):
 def ajaxdeleteownedcard(request, card):
     if not request.user.is_authenticated() or request.user.is_anonymous() or request.method != 'POST':
         raise PermissionDenied()
-    get_object_or_404(models.OwnedCard, pk=card).delete()
+    get_object_or_404(models.OwnedCard, pk=card, account__owner=request.user).delete()
     return HttpResponse('deleted')
 
 def ajaxfollowers(request, username):
