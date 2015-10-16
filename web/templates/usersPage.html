@@ -55,6 +55,9 @@
 	  {% if account.rank %}
 	  <h4 class="fontx2 padding50 padding-novertical">{{ account.rank }}</h4>
 	  {% endif %}
+	  {% if account.stars %}
+	  <h5>{{ account.stars }} <img height="20" src="/static/img/star.png" alt="Star"></h5>
+	  {% endif %}
 	</div>
       </div>
     </div>

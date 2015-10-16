@@ -516,7 +516,7 @@ def users(request, ajax=False):
     except ValueError: pass
 
     reverse = ('reverse_order' in request.GET and request.GET['reverse_order']) or not request.GET or len(request.GET) == 1
-    ordering = request.GET['ordering'] if 'ordering' in request.GET and request.GET['ordering'] else 'rank'
+    ordering = request.GET['ordering'] if 'ordering' in request.GET and request.GET['ordering'] else 'stars'
     prefix = '-' if reverse else ''
     accounts = accounts.order_by(prefix + ordering)
 
@@ -529,7 +529,7 @@ def users(request, ajax=False):
             page = 0
     accounts = accounts.select_related('owner')[(page * page_size):((page * page_size) + page_size)]
 
-    if ordering == 'rank':
+    if ordering == 'rank' or ordering == 'stars':
         for (i, account) in enumerate(accounts):
             account.position = (page * page_size) + i + 1
     context['total_pages'] = int(math.ceil(context['total_results'] / page_size))

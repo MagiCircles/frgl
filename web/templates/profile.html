@@ -118,6 +118,12 @@
 	    {% if account.rank %}
 	    <th>{% trans 'Rank' %}</th>
 	    {% endif %}
+	    {% if account.stars %}
+	    <th>
+	      {% trans 'Stars' %}
+	      <img height="20" src="/static/img/star.png" alt="Star">
+	    </th>
+	    {% endif %}
 	  </tr>
 	  <tr>
 	    {% if account.account_id %}
@@ -144,7 +150,15 @@
 	    <td><strong>{{ account.cards_total_sr }} SR</strong> {% trans 'and' %} <strong>{{ account.cards_total_ur }} UR</strong></td>
 	    {% endif %}
 	    {% if account.rank %}
-	    <td><h3 class="padding-novertical margin-novertical">{{ account.rank }}</h3></td>
+	    <td><h3 class="padding-novertical margin-novertical">{{ account.rank }}
+		{% if is_me %}<a href="/editaccount/{{ account.pk }}/" class="fontx0-5"><i class="flaticon-edit"></i></a>{% endif %}
+	      </h3>
+	    </td>
+	    {% endif %}
+	    {% if account.stars %}
+	    <td><h3 class="padding-novertical margin-novertical">{{ account.stars }}
+		{% if is_me %}<a href="/editaccount/{{ account.pk }}/" class="fontx0-5"><i class="flaticon-edit"></i></a>{% endif %}
+	    </h3></td>
 	    {% endif %}
 	  </tr>
 	</table>

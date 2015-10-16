@@ -86,7 +86,7 @@ class SimpleAccountForm(_AccountForm):
 class AccountForm(_AccountForm):
     class Meta:
         model = models.Account
-        fields = ('nickname', 'rank', 'os', 'device', 'play_with', 'account_id', 'facebook', 'accept_friend_requests')
+        fields = ('nickname', 'rank', 'stars', 'os', 'device', 'play_with', 'account_id', 'facebook', 'accept_friend_requests')
 
 class ConfirmDelete(forms.Form):
     confirm = forms.BooleanField(required=True, initial=False)
@@ -120,11 +120,12 @@ class FilterUserForm(forms.ModelForm):
     search = forms.CharField(required=False)
     favorite_performer = forms.ModelChoiceField(queryset=models.Performer.objects.all(), required=False)
     ordering = forms.ChoiceField(choices=[
+        ('stars', _('Stars')),
         ('rank', _('Rank')),
         ('owner__date_joined', _('Creation')),
         ('owner__username', _('Username')),
         ('nickname', _('Nickname')),
-    ], initial='rank', required=False)
+    ], initial='stars', required=False)
     reverse_order = forms.BooleanField(initial=True, required=False)
 
     class Meta:

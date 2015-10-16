@@ -45,6 +45,7 @@ class Account(models.Model):
     play_with = models.CharField(_('Play with'), blank=True, null=True, max_length=30, choices=PLAYWITH_CHOICES)
     accept_friend_requests = models.NullBooleanField(_('Accept friend requests on Facebook'), blank=True, null=True)
     rank = models.PositiveIntegerField(_("Rank"), blank=True, null=True)
+    stars = models.PositiveIntegerField(_("Stars"), blank=True, null=True)
     account_id = models.PositiveIntegerField(_("ID"), blank=True, null=True, help_text=_('To find your ID, tap the settings icon, then tap "Profile". Your ID is the number you see on top of the window.'))
 
     def __unicode__(self):
