@@ -25,6 +25,7 @@
       }
   });
   cuteform($('#id_reward_type'), {
+      'hide': 'false',
       'images': {
 	  '': '/static/img/empty.png',
 	  {% for key, value in form.fields.reward_type.choices %}{% if key != '' %}

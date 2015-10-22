@@ -143,9 +143,20 @@ class CardForm(forms.ModelForm):
 
 class RewardCardForm(CardForm):
     type = 'reward'
+
+    def save(self, commit=True):
+        instance = super(RewardCardForm, self).save(commit=False)
+        if instance.reward_type == 'profile':
+            instance.add_value = None
+        else:
+            instance.name = None
+        if commit:
+            instance.save()
+        return instance
+
     class Meta:
         model = models.Card
-        fields = ('image', 'rarity', 'sentence', 'reward_type', 'add_value')
+        fields = ('image', 'rarity', 'sentence', 'reward_type', 'add_value', 'name')
 
 class BoostCardForm(CardForm):
     type = 'boost'

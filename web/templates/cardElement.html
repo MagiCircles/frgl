@@ -12,9 +12,14 @@
 	</div>
 	<div class="title">
 	  {% if card.type == 'reward' %}
+	  {% if card.reward_type == 'profile' %}
+	  {% if card.name %}{{ card.name }}{% else %}?{% endif %}
+	  <small>{% trans 'Profile Icon' %}</small>
+	  {% else %}
 	  + {% if card.add_value %}{{ card.add_value }}{% else %}?{% endif %}
 	  {% if card.reward_type %}
 	  <img src="/static/img/{{ card.reward_type }}.png" alt="{{ card.reward_type }}">
+	  {% endif %}
 	  {% endif %}
 	  {% elif card.type == 'boost' %}
 	  + {% if card.add_value %}{{ card.add_value }}{% else %}?{% endif %}

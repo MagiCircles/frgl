@@ -61,6 +61,7 @@ REWARDS = (
     ('coupon', _('Premium Chance Coupon')),
     ('eventtoken', _('Event Token')),
     ('ticket', _('Tickets')),
+    ('profile', _('Profile Icon')),
 )
 def rewardToString(reward): return dict(REWARDS)[reward]
 
