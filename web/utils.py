@@ -2,7 +2,9 @@ from django.conf import settings
 from django.core.urlresolvers import resolve
 from frgl.middleware.httpredirect import HttpRedirectException
 from disqusapi import DisqusAPI
-from web import models
+try: from web import models
+except: pass
+import string, random
 
 rawContext ={
     'debug': settings.DEBUG,
@@ -21,6 +23,9 @@ def globalContext(request):
 def ajaxContext(request):
     context = rawContext.copy()
     return context
+
+def randomString(length, choice=(string.ascii_letters + string.digits)):
+    return ''.join(random.SystemRandom().choice(choice) for _ in range(length))
 
 def isFollowing(user, request):
     if request.user.is_authenticated():

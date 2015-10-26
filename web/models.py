@@ -3,8 +3,8 @@ from django.contrib.auth.models import User, Group
 from django.core import validators
 from django.utils.translation import ugettext_lazy as _, string_concat
 from web.model_choices import *
-from web import raw
-import hashlib, urllib
+from web import raw, utils
+import hashlib, urllib, os
 
 class Performer(models.Model):
     name = models.CharField(max_length=100, unique=True)
@@ -70,6 +70,10 @@ class UserLink(models.Model):
             self.owner.preferences.save()
         super(UserLink, self).save(*args, **kwargs)
 
+def card_upload_to(instance, filename):
+    name, extension = os.path.splitext(filename)
+    return 'cards/' + (str(instance.id) + '_' + utils.randomString(16) if instance and instance.id else utils.randomString(16)) + extension
+
 class Card(models.Model):
     creation = models.DateTimeField(auto_now_add=True)
     added_by = models.ForeignKey(User, related_name='added_cards', null=True, on_delete=models.SET_NULL)
@@ -77,7 +81,7 @@ class Card(models.Model):
     type = models.CharField(max_length=12, choices=CARD_TYPES)
     parent = models.ForeignKey('self', related_name='children', null=True)
     rarity = models.CharField(max_length=12, choices=RARITY, default='C')
-    image = models.ImageField(upload_to='cards')
+    image = models.ImageField(upload_to=card_upload_to)
     performer = models.ForeignKey(Performer, related_name='cards', null=True)
     attributes = models.CharField(max_length=100, null=True, blank=True)
     stage_number = models.PositiveIntegerField(null=True, validators=[validators.MaxValueValidator(4), validators.MinValueValidator(1)])
