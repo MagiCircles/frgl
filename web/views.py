@@ -312,12 +312,6 @@ def settings(request):
                 old_password = form_changepassword.cleaned_data['old_password']
                 user = authenticate(username=username, password=old_password)
                 if user is not None:
-                    for account in context['accounts']:
-                        if account.transfer_code and transfer_code.is_encrypted(account.transfer_code):
-                            clear_transfer_code = transfer_code.decrypt(account.transfer_code, old_password)
-                            encrypted_transfer_code = transfer_code.encrypt(clear_transfer_code, new_password)
-                            account.transfer_code = encrypted_transfer_code
-                            account.save()
                     user.set_password(new_password)
                     user.save()
                     authenticate(username=username, password=new_password)
