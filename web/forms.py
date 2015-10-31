@@ -102,6 +102,7 @@ class FilterCardForm(forms.ModelForm):
         ('rarity', _('Rarity')),
     ], initial='creation', required=False)
     reverse_order = forms.BooleanField(initial=True, required=False)
+    is_original_creation = forms.NullBooleanField(required=False, initial=False, label=_('Original Creations'))
 
     def __init__(self, *args, **kwargs):
         super(FilterCardForm, self).__init__(*args, **kwargs)
@@ -114,7 +115,7 @@ class FilterCardForm(forms.ModelForm):
 
     class Meta:
         model = models.Card
-        fields = ('search', 'type', 'performer', 'rarity', 'skill', 'attributes', 'ordering', 'reverse_order')
+        fields = ('search', 'type', 'performer', 'rarity', 'skill', 'attributes', 'is_original_creation', 'ordering', 'reverse_order')
 
 class FilterUserForm(forms.ModelForm):
     search = forms.CharField(required=False)
@@ -156,7 +157,7 @@ class RewardCardForm(CardForm):
 
     class Meta:
         model = models.Card
-        fields = ('image', 'rarity', 'sentence', 'reward_type', 'add_value', 'name')
+        fields = ('image', 'rarity', 'sentence', 'reward_type', 'add_value', 'name', 'original_creation')
 
 class BoostCardForm(CardForm):
     type = 'boost'
@@ -167,7 +168,7 @@ class BoostCardForm(CardForm):
 
     class Meta:
         model = models.Card
-        fields = ('image', 'rarity', 'sentence', 'add_value', 'performer')
+        fields = ('image', 'rarity', 'sentence', 'add_value', 'performer', 'original_creation')
 
 class UnlockCardForm(CardForm):
     song_types = forms.MultipleChoiceField(choices=list(models.ATTRIBUTES), required=False, label=_('Song types'))
@@ -181,7 +182,7 @@ class UnlockCardForm(CardForm):
     def save(self, commit=True):
         instance = super(UnlockCardForm, self).save(commit=False)
         instance.attributes = ','.join(self.cleaned_data['song_types'])
-        instance.children.all().update(rarity=instance.rarity, performer=instance.performer, attributes=instance.attributes)
+        instance.children.all().update(rarity=instance.rarity, performer=instance.performer, attributes=instance.attributes, original_creation=instance.original_creation)
         if instance.rarity == 'C':
             instance.skill = None
             instance.skill_value = None
@@ -195,7 +196,7 @@ class UnlockCardForm(CardForm):
 
     class Meta:
         model = models.Card
-        fields = ('image', 'rarity', 'performer', 'song_types', 'name', 'sentence', 'maximum_performance_ability', 'skill', 'skill_value', 'trigger_value', 'trigger_chance', 'how_to_obtain')
+        fields = ('image', 'rarity', 'performer', 'song_types', 'name', 'sentence', 'maximum_performance_ability', 'skill', 'skill_value', 'trigger_value', 'trigger_chance', 'how_to_obtain', 'original_creation')
 
 class StageUpCardForm(CardForm):
     type = 'stageup'
@@ -217,6 +218,7 @@ class StageUpCardForm(CardForm):
         instance.rarity = instance.parent.rarity
         instance.performer = instance.parent.performer
         instance.attributes = instance.parent.attributes
+        instance.original_creation = instance.parent.original_creation
         if instance.rarity == 'C' or instance.rarity == 'R':
             instance.maximum_performance_ability = None
         if commit:

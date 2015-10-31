@@ -50,7 +50,11 @@ def cards(request, card=None, ajax=False):
         cards = cards.filter(skill__exact=request.GET['skill'])
     if 'trigger' in request.GET and request.GET['trigger']:
         cards = cards.filter(trigger__exact=request.GET['trigger'])
-
+    if 'is_original_creation' in request.GET and (request.GET['is_original_creation'] == '1' or request.GET['is_original_creation'] == '2'):
+        if request.GET['is_original_creation'] == '2':
+            cards = cards.filter(original_creation=True)
+    else:
+            cards = cards.filter(original_creation=False)
     reverse = ('reverse_order' in request.GET and request.GET['reverse_order']) or not request.GET or len(request.GET) == 1
     ordering = request.GET['ordering'] if 'ordering' in request.GET and request.GET['ordering'] else 'creation'
     prefix = '-' if reverse else ''

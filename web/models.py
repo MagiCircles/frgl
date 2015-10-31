@@ -95,6 +95,7 @@ class Card(models.Model):
     trigger_value = models.PositiveIntegerField(null=True, blank=True, help_text=_('The number you see in the sentence that explains when the skill can be activated.'))
     trigger_chance = models.PositiveIntegerField(null=True, blank=True, help_text=_('The % chance of skill activation.'))
     how_to_obtain = models.TextField(_('How to get it?'), null=True, blank=True, help_text=_('For event or special songs cards. Leave empty if it\'s only obtainable in recruitment.'))
+    original_creation = models.BooleanField(default=False, help_text=_('Check this box if this card is fan-made and is not available in the game.'))
 
     def _rarityData(self, data):
         value = -1
