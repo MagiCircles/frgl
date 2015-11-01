@@ -53,6 +53,7 @@ def contextWithAccounts(request):
     return context
 
 def pushActivity(account, message, rank=None, ownedcard=None, eventparticipation=None):
+    from web import models
     if ownedcard is not None:
         card = ownedcard.card.parent if ownedcard.card.parent else ownedcard.card
         if card.rarity == 'C' or card.rarity == 'R':
