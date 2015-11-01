@@ -68,8 +68,8 @@
 		{% trans 'You' %}
 	      </a>
 	      <ul class="dropdown-menu" role="menu">
-		<li class="{% if current == 'login' %}active{% endif %}"><a href="/login/"><span class="hidden-sm"> &nbsp; <i class="flaticon-perfectlock"></i> {% trans 'Login' %}</span></a></li>
-		<li class="{% if current == 'signup' %}active{% endif %}"><a href="/signup/"><i class="flaticon-profile"></i><span class="hidden-sm"> &nbsp; {% trans 'Sign Up' %}</span></a></li>
+		<li class="{% if current == 'login' %}active{% endif %}"><a href="/login/"> &nbsp; <i class="flaticon-perfectlock"></i> {% trans 'Login' %}</a></li>
+		<li class="{% if current == 'signup' %}active{% endif %}"><a href="/signup/"><i class="flaticon-profile"></i> &nbsp; {% trans 'Sign Up' %}</a></li>
 	      </ul>
 	    </li>
 	    {% endif %}
