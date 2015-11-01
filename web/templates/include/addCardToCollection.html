@@ -2,6 +2,7 @@
       {% if ajax %}
       {% else %}
       {% if card.type == 'unlock' or card.type == 'stageup' %}
+      {% if not card.original_creation %}
       <div class="addcard">
 	<form method="post" action="/ajax/addcard/{{ card.id }}/" class="addcardform">
 	  {% csrf_token %}
@@ -20,5 +21,6 @@
 	  {% if user.is_authenticated and accounts|length > 0 %}</button>{% else %}</a>{% endif %}
         </form>
       </div>
+      {% endif %}
       {% endif %}
       {% endif %}

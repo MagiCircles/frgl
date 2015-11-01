@@ -362,7 +362,9 @@ def ajaxaddcard(request, card):
     if not request.user.is_authenticated() or request.user.is_anonymous() or request.method != 'POST':
         raise PermissionDenied()
     account = get_object_or_404(models.Account, pk=request.POST['account'], owner=request.user)
-    card = get_object_or_404(models.Card, pk=card)
+    card = get_object_or_404(models.Card, pk=card, original_creation=False)
+    if card.type != 'unlock' and card.type != 'stageup':
+        raise Http404
     ownedcard = None
     activity = None
     # only 1 card of the same "family" can be owned by account
