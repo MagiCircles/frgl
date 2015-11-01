@@ -18,13 +18,10 @@
 
   &nbsp;&nbsp;&nbsp;
 
-  {% if ajax %}
-  <a class="btn btn-main btn-lg" href="/card/{% if stageup %}{{ stageup.id }}{% else %}{{ card.id }}{% endif %}/#disqus_thread"
-     data-disqus-identifier="card-{{ card.id }}">
-    {% trans 'Comments' %}
-  </a>
-  {% endif %}
   {% if card.type == 'unlock' or card.type == 'stageup' %}
+  {% if not card.original_creation %}
+  <a href="/users/?search=&owns={% if stageup %}{{ stageup.id }}{% else %}{{ card.id }}{% endif %}&ordering=stars&reverse_order=on" target="_blank" class="btn btn-link btn-lg">{% trans 'Who owns it?' %}</a>
+  {% endif %}
   <a class="btn btn-main btn-lg" href="/addcard/stageup/">
     {% trans 'Add a Stage-Up card' %}
   </a>
@@ -32,4 +29,10 @@
   <a class="btn btn-main btn-lg" href="/editcard/{% if stageup %}{{ stageup.id }}{% else %}{{ card.id }}{% endif %}/">
     {% trans 'Edit this card' %}
   </a>
+  {% if ajax %}
+  <a class="btn btn-main btn-lg" href="/card/{% if stageup %}{{ stageup.id }}{% else %}{{ card.id }}{% endif %}/#disqus_thread"
+     data-disqus-identifier="card-{{ card.id }}">
+    {% trans 'Comments' %}
+  </a>
+  {% endif %}
 </div>

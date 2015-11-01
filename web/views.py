@@ -508,6 +508,8 @@ def users(request, ajax=False):
         accounts = accounts.filter(os=request.GET['os'])
     if 'favorite_performer' in request.GET and request.GET['favorite_performer']:
         accounts = accounts.filter(owner__preferences__favorite_performer=request.GET['favorite_performer'])
+    if 'owns' in request.GET and request.GET['owns']:
+        accounts = accounts.filter(ownedcards__card__pk=request.GET['owns'])
     try:
         if 'accept_friend_requests' in request.GET and int(request.GET['accept_friend_requests']) > 1:
             if request.GET['accept_friend_requests'] == '2':
