@@ -22,7 +22,7 @@
   {% if not card.original_creation %}
   <a href="/users/?search=&owns={% if stageup %}{{ stageup.id }}{% else %}{{ card.id }}{% endif %}&ordering=stars&reverse_order=on" target="_blank" class="btn btn-link btn-lg">{% trans 'Who owns it?' %}</a>
   {% endif %}
-  <a class="btn btn-main btn-lg" href="/addcard/stageup/">
+  <a class="btn btn-main btn-lg" href="/addcard/stageup/?parent={{ card.id }}">
     {% trans 'Add a Stage-Up card' %}
   </a>
   {% endif %}

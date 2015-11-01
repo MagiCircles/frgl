@@ -111,9 +111,9 @@ def addcard(request, type):
     except KeyError:
         raise Http404
     if request.method == 'GET':
-        form = formClass()
+        form = formClass(request=request)
     elif request.method == 'POST':
-        form = formClass(request.POST, request.FILES)
+        form = formClass(request.POST, request.FILES, request=request)
         if form.is_valid():
             card = form.save(commit=False)
             card.added_by = request.user
@@ -134,9 +134,9 @@ def editcard(request, card):
         raise Http404
     formClass = forms.cardTypeForms[card.type]
     if request.method == 'GET':
-        form = formClass(instance=card)
+        form = formClass(instance=card, request=request)
     elif request.method == 'POST':
-        form = formClass(request.POST, request.FILES, instance=card)
+        form = formClass(request.POST, request.FILES, instance=card, request=request)
         if form.is_valid():
             card = form.save(commit=False)
             card.modified_by = request.user

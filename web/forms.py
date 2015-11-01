@@ -135,6 +135,11 @@ class FilterUserForm(forms.ModelForm):
 
 class CardForm(forms.ModelForm):
     type = 'reward'
+
+    def __init__(self, *args, **kwargs):
+        kwargs.pop('request', None)
+        super(CardForm, self).__init__(*args, **kwargs)
+
     def save(self, commit=True):
         instance = super(CardForm, self).save(commit=False)
         instance.type = self.type
@@ -202,8 +207,11 @@ class StageUpCardForm(CardForm):
     type = 'stageup'
 
     def __init__(self, *args, **kwargs):
+        request = kwargs.pop('request', None)
         super(StageUpCardForm, self).__init__(*args, **kwargs)
         self.fields['parent'].queryset = self.fields['parent'].queryset.filter(type='unlock').order_by('rarity', 'name', 'performer__name')
+        if request and 'parent' in request.GET:
+            self.fields['parent'].initial = request.GET['parent']
 
     def clean(self):
         if 'stage_number' in self.cleaned_data:
